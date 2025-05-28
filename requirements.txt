@@ -24,4 +24,4 @@ pytz==2025.1
 scipy==1.15.1
 six==1.17.0
 tzdata==2025.1
-
+sphinx-rtd-theme==2.0.0
