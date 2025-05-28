@@ -5,6 +5,14 @@ import sys
 
 class SCADFile():
     def __init__(self, file_name):
+        '''
+        Initialize a new SCAD file.
+
+        Parameters
+        ----------
+        file_name : str
+            Name of the SCAD file to create.
+        '''
         self.file_name = file_name
         self.path = 'scad/' + self.file_name
         self.create_file()
@@ -25,8 +33,10 @@ class SCADFile():
         '''
         Import a vessel data into the SCAD file.
 
-        Parameters: 
-        - vessel: Vessel object
+        Parameters
+        ----------
+        vessel : Vessel
+            Vessel object containing path, diameters, and euler_angles.
         '''
         with open(self.path, 'a') as f:
             f.write(f'// Import vessel\n')
@@ -55,8 +65,9 @@ class SCADFile():
         '''
         Write the SCAD file to an STL file.
 
-        Parameters: 
-        - custom_name: str, optional
+        Parameters
+        ----------
+        custom_name : str, optional
             Custom name for the STL file. If not provided, the STL file will be named after the SCAD file.
         '''
         if custom_name:
@@ -69,8 +80,7 @@ class SCADFile():
             result = subprocess.run(['mkdir', '-p', 'scad-stl'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
         except subprocess.CalledProcessError as e:
-            print(f"Error occurred: {e.stderr.decode('utf-8')}")
-
+            print(f'Error occurred: {e.stderr.decode("utf-8")}')
         print('Writing stl file. This may take some time...')
         subprocess.run(['openscad', '-o', self.stl_path, self.path], check=True)
         print(f'SCAD file written to {self.stl_path}')
@@ -78,6 +88,14 @@ class SCADFile():
 
 class OpenSCADFunctions():
     def __init__(self, path):
+        '''
+        Initialize OpenSCADFunctions.
+
+        Parameters
+        ----------
+        path : str
+            Path to the SCAD file.
+        '''
         self.path = path
         self.fragments = 25
         self.thickness = 0.01
@@ -85,20 +103,30 @@ class OpenSCADFunctions():
     def set_thickness(self, thickness):
         '''
         Set the thickness of the lofted circle.
+
+        Parameters
+        ----------
+        thickness : float
+            Thickness of the lofted circle.
         '''
         self.thickness = thickness
         
     def set_fragments(self, fragments):
         '''
         Set the number of fragments for OpenSCAD to draw circles.
+
+        Parameters
+        ----------
+        fragments : int
+            Number of fragments for circle rendering.
         '''
         self.fragments = fragments
 
     def import_circle_at(self):
         '''
         Import the circle_at module into the SCAD file.
-        
-        The circle at function creates a cylinder with a given diameter and angle.
+
+        The circle_at function creates a cylinder with a given diameter and angle.
         OpenSCAD cannot loft (hold()) circles (or other 2D objects), so we 
         create a cylinder with a small height (0.01) to represent the lofted circle. 
         '''
@@ -107,7 +135,7 @@ class OpenSCADFunctions():
             f.write(f'module circle_at(position, diameter, angle) {{ \n')
             f.write(f'    translate(position) {{\n')
             f.write(f'        rotate(angle) {{\n')
-            f.write(f'            cylinder({self.thickness}, d = diameter, $fn=round(rands({self.fragments-2},{self.fragments+2},1)[0]));\n')
+            f.write(f'            cylinder({self.thickness}, d = diameter, $fn={self.fragments});\n')
             f.write(f'        }}\n')
             f.write(f'    }}\n')
             f.write(f'}}\n\n')
@@ -132,6 +160,11 @@ class OpenSCADFunctions():
     def function_loft_path(self, vessel):
         '''
         Create a loft path function in OpenSCAD for a given vessel.
+
+        Parameters
+        ----------
+        vessel : Vessel
+            Vessel object containing name, path, diameters, and euler_angles.
         '''
         with open(self.path, 'a') as f:
             f.write(f'// Loft path of {vessel.name}\n')
@@ -152,4 +185,3 @@ class OpenSCADFunctions():
         with open(self.path, 'a') as f:
             f.write(f'}}\n')
             f.write(f'// ------------------------------------\n')
-                                                                

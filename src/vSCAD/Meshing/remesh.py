@@ -7,6 +7,15 @@ from pymeshlab import PercentageValue, PureValue
 
 class Remesh():
     def __init__(self, stl_path):
+        '''
+        Initializes the Remesh class with the path to the STL file.
+        Parameters
+        ----------  
+        stl_path : str
+            The path to the STL file to be remeshed.
+
+        This class provides methods to remesh the STL file using PyMeshLab. 
+        '''
         self.stl_path = stl_path
         self.init_target_length_percentage = 0.4
         self.final_target_length_percentage = 0.1
@@ -17,27 +26,84 @@ class Remesh():
         self.saveout_period = 10
 
     def set_initial_target_length_percentage(self, target_length_percentage):
+        '''
+        Sets the initial target length percentage for remeshing.
+        Parameters
+        ----------
+        target_length_percentage : float
+            The initial target length percentage for remeshing.
+        '''
         self.init_target_length_percentage = target_length_percentage
         
     def set_final_target_length_percentage(self, target_length_percentage):
+        '''
+        Sets the final target length percentage for remeshing.
+        Parameters
+        ----------
+        target_length_percentage : float
+            The final target length percentage for remeshing.
+        '''
         self.final_target_length_percentage = target_length_percentage
 
     def set_target_length_reduction_step_size(self, target_length_reduction_step_size):
+        '''
+        Sets the step size for reducing the target length percentage during remeshing.
+        Parameters
+        ----------  
+        target_length_reduction_step_size : float
+            The step size for reducing the target length percentage.
+        '''
         self.target_length_reduction_step_size = target_length_reduction_step_size
 
     def set_target_length_reduction_step_size(self, target_length_reduction_step_size):
+        '''
+        Sets the step size for reducing the target length percentage during remeshing.
+        Parameters
+        ----------
+        target_length_reduction_step_size : float
+            The step size for reducing the target length percentage.
+        '''
         self.target_length_reduction_step_size = target_length_reduction_step_size
 
     def set_isotropic_remeshing_iterations(self, isotropic_remeshing_iterations):
+        '''
+        Sets the number of iterations for isotropic remeshing.
+        Parameters
+        ----------
+        isotropic_remeshing_iterations : int
+            The number of iterations for isotropic remeshing.
+
+        '''
         self.isotropic_remeshing_iterations = isotropic_remeshing_iterations
 
     def set_recursive_smoothing_iterations(self, recursive_smoothing_iterations):
+        '''
+        Sets the number of iterations for recursive smoothing.
+        Parameters
+        ----------
+        recursive_smoothing_iterations : int
+            The number of iterations for recursive smoothing.
+        '''
         self.recursive_smoothing_iterations = recursive_smoothing_iterations
 
     def set_final_smoothing_iterations(self, final_smoothing_iterations):
+        '''
+        Sets the number of iterations for final smoothing.
+        Parameters
+        ----------
+        final_smoothing_iterations : int
+            The number of iterations for final smoothing.
+        '''
         self.final_smoothing_iterations = final_smoothing_iterations
 
     def set_saveout_period(self, saveout_period):
+        '''
+        Sets the period for saving intermediate meshes during remeshing.
+        Parameters
+        ----------
+        saveout_period : int
+            The period for saving intermediate meshes during remeshing.
+        '''
         self.saveout_period = saveout_period
 
     def remesh_stl(self):

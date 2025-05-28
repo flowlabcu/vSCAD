@@ -41,10 +41,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_geometry.html">Geometry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_tree.html">Tree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../demo.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../toc_demo.html">vSCAD Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../toc_modules.html">vSCAD Modules</a></li>
 </ul>
 
         </div>
@@ -83,45 +82,71 @@
 <span class="kn">import</span> <span class="nn">scipy.interpolate</span>
 
 <div class="viewcode-block" id="Vessel">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.Vessel">[docs]</a>
 <span class="k">class</span> <span class="nc">Vessel</span><span class="p">():</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;vessel&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initializes a Vessel object.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the vessel, defaults to &#39;vessel&#39;.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scale_factor</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="Vessel.set_path">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel.set_path">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.Vessel.set_path">[docs]</a>
     <span class="k">def</span> <span class="nf">set_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Sets the path of the vessel as a list of points</span>
+<span class="sd">        Sets the path of the vessel as a list of points.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : array-like</span>
+<span class="sd">            List or array of points representing the vessel path.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_factor</span></div>
 
     
 <div class="viewcode-block" id="Vessel.set_diameters">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel.set_diameters">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.Vessel.set_diameters">[docs]</a>
     <span class="k">def</span> <span class="nf">set_diameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diams</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Sets the diameters of the vessel as a list of diameters</span>
+<span class="sd">        Sets the diameters of the vessel as a list of diameters.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        diams : array-like</span>
+<span class="sd">            List or array of diameters.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">diameters</span> <span class="o">=</span> <span class="n">diams</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_factor</span></div>
 
 
 <div class="viewcode-block" id="Vessel.set_scale_factor">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel.set_scale_factor">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.Vessel.set_scale_factor">[docs]</a>
     <span class="k">def</span> <span class="nf">set_scale_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale_factor</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Sets the scale factor for the vessel</span>
+<span class="sd">        Sets the scale factor for the vessel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        scale_factor : float</span>
+<span class="sd">            Scale factor to apply to the vessel.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scale_factor</span> <span class="o">=</span> <span class="n">scale_factor</span></div>
 
 
 <div class="viewcode-block" id="Vessel.get_direction_vectors">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel.get_direction_vectors">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.Vessel.get_direction_vectors">[docs]</a>
     <span class="k">def</span> <span class="nf">get_direction_vectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Determine the direction vectors between each point in the path</span>
+<span class="sd">        Determine the direction vectors between each point in the path.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">direction_vectors</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
@@ -133,10 +158,14 @@
 
 
 <div class="viewcode-block" id="Vessel.get_euler_angles">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel.get_euler_angles">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.Vessel.get_euler_angles">[docs]</a>
     <span class="k">def</span> <span class="nf">get_euler_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Determine the Euler angles between each point in the path</span>
+<span class="sd">        Determine the Euler angles between each point in the path.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">euler_angles</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">direction_vectors</span><span class="p">)):</span>
@@ -146,28 +175,41 @@
 
 
 <div class="viewcode-block" id="Vessel.interpolate_paths">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel.interpolate_paths">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.Vessel.interpolate_paths">[docs]</a>
     <span class="k">def</span> <span class="nf">interpolate_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Interpolates the path and diameters of the vessel using cubic spline interpolation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n : int</span>
+<span class="sd">            The number of additional points to add between original point pairs.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">GeometricFunctions</span><span class="o">.</span><span class="n">interpolate_coordinates_3d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">diameters</span> <span class="o">=</span> <span class="n">GeometricFunctions</span><span class="o">.</span><span class="n">interpolate_scalar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameters</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span></div>
 </div>
 
 
 <div class="viewcode-block" id="GeometricFunctions">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions">[docs]</a>
 <span class="k">class</span> <span class="nc">GeometricFunctions</span><span class="p">():</span>
 <div class="viewcode-block" id="GeometricFunctions.interpolate_coordinates_3d">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.interpolate_coordinates_3d">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.interpolate_coordinates_3d">[docs]</a>
     <span class="k">def</span> <span class="nf">interpolate_coordinates_3d</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Interpolates a list of points using cubic spline interpolation</span>
+<span class="sd">        Interpolates a list of points using cubic spline interpolation.</span>
 
-<span class="sd">        Parameters:</span>
-<span class="sd">        - points: List of points (3D), formatted as a list of lists</span>
-<span class="sd">        - n: The number of additional points to add between original point pairs  </span>
-<span class="sd">        </span>
-<span class="sd">        Returns:</span>
-<span class="sd">        - interpolated_points: A list of newly interpolated points</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        points : array-like</span>
+<span class="sd">            List of points (3D), formatted as a list of lists.</span>
+<span class="sd">        n : int</span>
+<span class="sd">            The number of additional points to add between original point pairs.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        interpolated_points : ndarray</span>
+<span class="sd">            A list of newly interpolated points.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
         <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">))</span> 
@@ -193,17 +235,22 @@
 
 
 <div class="viewcode-block" id="GeometricFunctions.interpolate_scalar">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.interpolate_scalar">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.interpolate_scalar">[docs]</a>
     <span class="k">def</span> <span class="nf">interpolate_scalar</span><span class="p">(</span><span class="n">scalar_data</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Interpolates a list of points using cubic spline interpolation</span>
+<span class="sd">        Interpolates a list of points using cubic spline interpolation.</span>
 
-<span class="sd">        Parameters:</span>
-<span class="sd">        - scalar_data: list of scalar</span>
-<span class="sd">        - n: The number of additional points to add between original point pairs  </span>
-<span class="sd">        </span>
-<span class="sd">        Returns:</span>
-<span class="sd">        - interpolated_scalar: A list of newly interpolated scalars</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        scalar_data : array-like</span>
+<span class="sd">            List of scalar values.</span>
+<span class="sd">        n : int</span>
+<span class="sd">            The number of additional points to add between original point pairs.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        interpolated_scalar : ndarray</span>
+<span class="sd">            A list of newly interpolated scalars.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">scalar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scalar_data</span><span class="p">)</span>
         <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scalar_data</span><span class="p">))</span>
@@ -219,33 +266,43 @@
 
 
 <div class="viewcode-block" id="GeometricFunctions.get_direction_vector">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.get_direction_vector">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.get_direction_vector">[docs]</a>
     <span class="k">def</span> <span class="nf">get_direction_vector</span><span class="p">(</span><span class="n">point1</span><span class="p">,</span> <span class="n">point2</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Calculates the tangent vector between two points</span>
+<span class="sd">        Calculates the tangent vector between two points.</span>
 
-<span class="sd">        Parameters:</span>
-<span class="sd">        - point1: First point</span>
-<span class="sd">        - point2: Second point</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        point1 : array-like</span>
+<span class="sd">            First point.</span>
+<span class="sd">        point2 : array-like</span>
+<span class="sd">            Second point.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">        - tangent_vector: The normalized tangent vector between the two points </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tangent_vector : ndarray</span>
+<span class="sd">            The normalized tangent vector between the two points.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">point2</span> <span class="o">-</span> <span class="n">point1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">point2</span> <span class="o">-</span> <span class="n">point1</span><span class="p">)</span></div>
 
     
 <div class="viewcode-block" id="GeometricFunctions.direction_to_euler">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.direction_to_euler">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.direction_to_euler">[docs]</a>
     <span class="k">def</span> <span class="nf">direction_to_euler</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">normal</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Converts a direction vector to Euler angles</span>
-<span class="sd">        </span>
-<span class="sd">        Parameters: </span>
-<span class="sd">            Direction: The direction vector to convert</span>
-<span class="sd">            Normal: The normal vector of the plane to convert the direction vector to Euler angles, default is [0, 0, 1]</span>
-<span class="sd">        </span>
-<span class="sd">        Returns:</span>
-<span class="sd">            Euler angles in degrees (ZYX rotation)</span>
+<span class="sd">        Converts a direction vector to Euler angles.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        direction : array-like</span>
+<span class="sd">            The direction vector to convert.</span>
+<span class="sd">        normal : array-like, optional</span>
+<span class="sd">            The normal vector of the plane to convert the direction vector to Euler angles, default is [0, 0, 1].</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        euler_angles : ndarray</span>
+<span class="sd">            Euler angles in degrees (ZYX rotation).</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="c1"># Default normal vector is [0, 0, 1]</span>
         <span class="k">if</span> <span class="n">normal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -297,24 +354,64 @@
             <span class="n">roll</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">roll</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">pitch</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">yaw</span><span class="p">)])</span></div>
-</div>
 
         
+<div class="viewcode-block" id="GeometricFunctions.get_endpoints_normal">
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.get_endpoints_normal">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_endpoints_normal</span><span class="p">(</span><span class="n">vessel</span><span class="p">,</span> <span class="n">cross</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculates the vector normal to the line between the first and last points of the vessel.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vessel : Vessel</span>
+<span class="sd">            Vessel object.</span>
+<span class="sd">        cross : array-like, optional</span>
+<span class="sd">            Vector to cross with, default is None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        normal : ndarray</span>
+<span class="sd">            Normalized normal vector.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">cross</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">normal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">normal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cross</span><span class="p">)</span>       
+        
+        <span class="k">return</span> <span class="n">normal</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span></div>
+</div>
+
+    
 <div class="viewcode-block" id="Distortions">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Distortions">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.Distortions">[docs]</a>
 <span class="k">class</span> <span class="nc">Distortions</span><span class="p">():</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="Distortions.add_path_noise">
-<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Distortions.add_path_noise">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_geometry.html#vSCAD.Geometry.geometry.Distortions.add_path_noise">[docs]</a>
     <span class="k">def</span> <span class="nf">add_path_noise</span><span class="p">(</span><span class="n">vessel</span><span class="p">,</span> <span class="n">noise_level</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">noise_type</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">hold</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Adds noise to the path of the vessel</span>
+<span class="sd">        Adds noise to the path of the vessel.</span>
 
-<span class="sd">        Parameters:</span>
-<span class="sd">        - vessel: Vessel object</span>
-<span class="sd">        - noise_level: The level of noise to add to the path</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vessel : Vessel</span>
+<span class="sd">            Vessel object.</span>
+<span class="sd">        noise_level : float, optional</span>
+<span class="sd">            The level of noise to add to the path (default is 0.1).</span>
+<span class="sd">        noise_type : str, optional</span>
+<span class="sd">            The type of noise to add: &#39;x&#39;, &#39;y&#39;, &#39;z&#39;, &#39;xy&#39;, &#39;xz&#39;, &#39;yz&#39;, or &#39;all&#39; (default is &#39;x&#39;).</span>
+<span class="sd">        hold : int, optional</span>
+<span class="sd">            Number of points at each end to hold fixed (default is 3).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        None</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="n">noise_level</span> <span class="o">=</span> <span class="n">noise_level</span> <span class="o">*</span> <span class="n">length</span>
@@ -361,9 +458,6 @@
         <span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">y_noise</span>
         <span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">z</span> <span class="o">+</span> <span class="n">z_noise</span></div>
 </div>
-
-
-
 
 </pre></div>
 

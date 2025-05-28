@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vSCAD.Meshing.remesh &mdash; vSCAD 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            vSCAD
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../toc_demo.html">vSCAD Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../toc_modules.html">vSCAD Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">vSCAD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">vSCAD.Meshing.remesh</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for vSCAD.Meshing.remesh</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">pymeshlab</span>
+<span class="kn">from</span> <span class="nn">pymeshlab</span> <span class="kn">import</span> <span class="n">PercentageValue</span><span class="p">,</span> <span class="n">PureValue</span>
+
+<div class="viewcode-block" id="Remesh">
+<a class="viewcode-back" href="../../../modules/module_meshing.html#vSCAD.Meshing.remesh.Remesh">[docs]</a>
+<span class="k">class</span> <span class="nc">Remesh</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stl_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initializes the Remesh class with the path to the STL file.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------  </span>
+<span class="sd">        stl_path : str</span>
+<span class="sd">            The path to the STL file to be remeshed.</span>
+
+<span class="sd">        This class provides methods to remesh the STL file using PyMeshLab. </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stl_path</span> <span class="o">=</span> <span class="n">stl_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_target_length_percentage</span> <span class="o">=</span> <span class="mf">0.4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_target_length_percentage</span> <span class="o">=</span> <span class="mf">0.1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_length_reduction_step_size</span> <span class="o">=</span> <span class="mf">0.1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isotropic_remeshing_iterations</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recursive_smoothing_iterations</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_smoothing_iterations</span> <span class="o">=</span> <span class="mi">50</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">saveout_period</span> <span class="o">=</span> <span class="mi">10</span>
+
+<div class="viewcode-block" id="Remesh.set_initial_target_length_percentage">
+<a class="viewcode-back" href="../../../modules/module_meshing.html#vSCAD.Meshing.remesh.Remesh.set_initial_target_length_percentage">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_initial_target_length_percentage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_length_percentage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the initial target length percentage for remeshing.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        target_length_percentage : float</span>
+<span class="sd">            The initial target length percentage for remeshing.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_target_length_percentage</span> <span class="o">=</span> <span class="n">target_length_percentage</span></div>
+
+        
+<div class="viewcode-block" id="Remesh.set_final_target_length_percentage">
+<a class="viewcode-back" href="../../../modules/module_meshing.html#vSCAD.Meshing.remesh.Remesh.set_final_target_length_percentage">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_final_target_length_percentage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_length_percentage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the final target length percentage for remeshing.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        target_length_percentage : float</span>
+<span class="sd">            The final target length percentage for remeshing.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_target_length_percentage</span> <span class="o">=</span> <span class="n">target_length_percentage</span></div>
+
+
+    <span class="k">def</span> <span class="nf">set_target_length_reduction_step_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_length_reduction_step_size</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the step size for reducing the target length percentage during remeshing.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------  </span>
+<span class="sd">        target_length_reduction_step_size : float</span>
+<span class="sd">            The step size for reducing the target length percentage.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_length_reduction_step_size</span> <span class="o">=</span> <span class="n">target_length_reduction_step_size</span>
+
+<div class="viewcode-block" id="Remesh.set_target_length_reduction_step_size">
+<a class="viewcode-back" href="../../../modules/module_meshing.html#vSCAD.Meshing.remesh.Remesh.set_target_length_reduction_step_size">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_target_length_reduction_step_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_length_reduction_step_size</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the step size for reducing the target length percentage during remeshing.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        target_length_reduction_step_size : float</span>
+<span class="sd">            The step size for reducing the target length percentage.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_length_reduction_step_size</span> <span class="o">=</span> <span class="n">target_length_reduction_step_size</span></div>
+
+
+<div class="viewcode-block" id="Remesh.set_isotropic_remeshing_iterations">
+<a class="viewcode-back" href="../../../modules/module_meshing.html#vSCAD.Meshing.remesh.Remesh.set_isotropic_remeshing_iterations">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_isotropic_remeshing_iterations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">isotropic_remeshing_iterations</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the number of iterations for isotropic remeshing.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        isotropic_remeshing_iterations : int</span>
+<span class="sd">            The number of iterations for isotropic remeshing.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isotropic_remeshing_iterations</span> <span class="o">=</span> <span class="n">isotropic_remeshing_iterations</span></div>
+
+
+<div class="viewcode-block" id="Remesh.set_recursive_smoothing_iterations">
+<a class="viewcode-back" href="../../../modules/module_meshing.html#vSCAD.Meshing.remesh.Remesh.set_recursive_smoothing_iterations">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_recursive_smoothing_iterations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recursive_smoothing_iterations</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the number of iterations for recursive smoothing.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        recursive_smoothing_iterations : int</span>
+<span class="sd">            The number of iterations for recursive smoothing.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recursive_smoothing_iterations</span> <span class="o">=</span> <span class="n">recursive_smoothing_iterations</span></div>
+
+
+<div class="viewcode-block" id="Remesh.set_final_smoothing_iterations">
+<a class="viewcode-back" href="../../../modules/module_meshing.html#vSCAD.Meshing.remesh.Remesh.set_final_smoothing_iterations">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_final_smoothing_iterations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">final_smoothing_iterations</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the number of iterations for final smoothing.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        final_smoothing_iterations : int</span>
+<span class="sd">            The number of iterations for final smoothing.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_smoothing_iterations</span> <span class="o">=</span> <span class="n">final_smoothing_iterations</span></div>
+
+
+<div class="viewcode-block" id="Remesh.set_saveout_period">
+<a class="viewcode-back" href="../../../modules/module_meshing.html#vSCAD.Meshing.remesh.Remesh.set_saveout_period">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_saveout_period</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">saveout_period</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the period for saving intermediate meshes during remeshing.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        saveout_period : int</span>
+<span class="sd">            The period for saving intermediate meshes during remeshing.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">saveout_period</span> <span class="o">=</span> <span class="n">saveout_period</span></div>
+
+
+<div class="viewcode-block" id="Remesh.remesh_stl">
+<a class="viewcode-back" href="../../../modules/module_meshing.html#vSCAD.Meshing.remesh.Remesh.remesh_stl">[docs]</a>
+    <span class="k">def</span> <span class="nf">remesh_stl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Remesh the STL file using PyMeshLab.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">ms</span> <span class="o">=</span> <span class="n">pymeshlab</span><span class="o">.</span><span class="n">MeshSet</span><span class="p">()</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">load_new_mesh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stl_path</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">save_current_mesh</span><span class="p">(</span><span class="s1">&#39;scad-stl/original-mesh.stl&#39;</span><span class="p">)</span>
+
+        <span class="n">percent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_target_length_percentage</span>
+
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">percent</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_target_length_percentage</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Remeshing step </span><span class="si">{</span><span class="n">count</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     Removing duplicate vertices...&#39;</span><span class="p">)</span>
+            <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_remove_duplicate_vertices&#39;</span><span class="p">)</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     Removing duplicate faces...&#39;</span><span class="p">)</span>
+            <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_remove_duplicate_faces&#39;</span><span class="p">)</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     Removing unreferenced vertices...&#39;</span><span class="p">)</span>
+            <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_remove_unreferenced_vertices&#39;</span><span class="p">)</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     Repairing non-manifold edges...&#39;</span><span class="p">)</span>
+            <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_repair_non_manifold_edges&#39;</span><span class="p">)</span>
+            <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_repair_non_manifold_vertices&#39;</span><span class="p">)</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     Merging close vertices...&#39;</span><span class="p">)</span>
+            <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_merge_close_vertices&#39;</span><span class="p">,)</span>
+
+            <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_repair_non_manifold_edges&#39;</span><span class="p">)</span>
+            <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_repair_non_manifold_vertices&#39;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     Closing holes...&#39;</span><span class="p">)</span>
+            <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_close_holes&#39;</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     Isotropic remeshing...&#39;</span><span class="p">)</span>
+            <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_isotropic_explicit_remeshing&#39;</span><span class="p">,</span> 
+                            <span class="n">iterations</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">isotropic_remeshing_iterations</span><span class="p">,</span> 
+                            <span class="n">targetlen</span> <span class="o">=</span> <span class="n">PercentageValue</span><span class="p">(</span><span class="n">percent</span><span class="p">))</span>
+            
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;     Smoothing...&#39;</span><span class="p">)</span>
+            <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;apply_coord_laplacian_smoothing_surface_preserving&#39;</span><span class="p">,</span> 
+                            <span class="n">iterations</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">recursive_smoothing_iterations</span><span class="p">,</span> <span class="n">angledeg</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            
+            <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_merge_close_vertices&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">count</span> <span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">saveout_period</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ms</span><span class="o">.</span><span class="n">save_current_mesh</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;scad-stl/mesh-</span><span class="si">{</span><span class="n">count</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">.stl&#39;</span><span class="p">)</span>
+
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span> 
+            <span class="n">percent</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_length_reduction_step_size</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Applying final smoothing...&#39;</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;apply_coord_laplacian_smoothing_surface_preserving&#39;</span><span class="p">,</span> 
+                        <span class="n">iterations</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">final_smoothing_iterations</span><span class="p">,</span> <span class="n">angledeg</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+
+        <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_remove_duplicate_vertices&#39;</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_remove_duplicate_faces&#39;</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_remove_unreferenced_vertices&#39;</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_repair_non_manifold_edges&#39;</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">apply_filter</span><span class="p">(</span><span class="s1">&#39;meshing_merge_close_vertices&#39;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saving final mesh&#39;</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">save_current_mesh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stl_path</span><span class="p">)</span>
+        
+        <span class="k">return</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Nick Rovito.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

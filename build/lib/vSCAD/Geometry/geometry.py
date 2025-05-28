@@ -55,9 +55,6 @@ class Vessel():
         self.euler_angles = np.array(self.euler_angles)
 
     def interpolate_paths(self, n):
-        '''
-        Interpolates the path and diameters of the vessel using cubic spline interpolation
-        '''
         self.path = GeometricFunctions.interpolate_coordinates_3d(self.path, n)
         self.diameters = GeometricFunctions.interpolate_scalar(self.diameters, n)
 
@@ -192,6 +189,131 @@ class GeometricFunctions():
             roll = 0
 
         return np.array([np.degrees(roll), np.degrees(pitch), np.degrees(yaw)])
+
+class BinaryTree():
+    class Branch():
+        def __init__(self, start_point, end_point, start_diameter, end_diameter, num_points):
+            self.start_point = start_point
+            self.end_point = end_point
+            
+            # Generate a set of points and diameters for each branch 
+            p = int(num_points) 
+            if p < 2:
+                p = 2
+
+            self.points = np.array(np.linspace(start_point, end_point, p))
+            self.diameters = np.linspace(start_diameter, end_diameter, p)
+
+    def __init__(self, start_point, length, angle, depth, diameter = 2, num_points_base = 100):
+        self.start_point = start_point
+        self.length = length    
+        self.bifurcation_angle = angle  
+        self.depth = depth
+        self.num_points_base = num_points_base
+        self.diameter = diameter
+        self.murray_exponent = 3.0
+        self.angle = np.pi / 2
+
+    def draw_tree(self):
+        '''
+        Begins recursive tree generation
+        '''
+        self.branches = self.generate_tree(self.start_point, self.length, self.diameter, self.num_points_base, self.angle, self.depth)
+        return self.branches
+
+    def generate_tree(self, start_point, length, diameter, num_points, angle, depth):
+        '''
+        Generates a Binary tree
+
+        Parameters:
+        - start_point: The starting point of the tree
+        - length: The length of the brach
+        - diameter: The diameter of the branch
+        - num_points: The number of points to generate in the branch
+        - angle: The angle of the tree
+        - depth: The depth of the tree
+        '''
+        if depth == 0:
+            return []
+        
+        end_point = start_point + length * np.array([np.cos(angle), np.sin(angle), 0])
+
+        start_diameter = self.calculate_diameter(diameter)
+        end_diameter = self.calculate_diameter(start_diameter)
+        branch = BinaryTree.Branch(start_point=start_point, 
+                                   end_point=end_point, 
+                                   start_diameter=start_diameter, 
+                                   end_diameter=end_diameter, 
+                                   num_points=num_points)
+        
+        left_branch = self.generate_tree(end_point, 
+                                         length * 0.7, 
+                                         self.calculate_diameter(diameter),
+                                         int(num_points * 0.7), 
+                                         angle + self.bifurcation_angle, 
+                                         depth - 1)
+        
+        right_branch = self.generate_tree(end_point, 
+                                          length * 0.7, 
+                                          self.calculate_diameter(diameter),
+                                          int(num_points * 0.7),
+                                          angle - self.bifurcation_angle, 
+                                          depth - 1)
+        
+        return [branch] + left_branch + right_branch
+
+    def calculate_diameter(self, diameter):
+        return diameter * (2 ** (-1 / self.murray_exponent))
+
+class NodalTree():
+    class Branch():
+        def __init__(self, start_point, end_point, start_diameter, end_diameter, num_points):
+            self.start_point = start_point
+            self.end_point = end_point
+            
+            # Generate a set of points and diameters for each branch 
+            p = int(num_points) 
+            if p < 2:
+                p = 2
+
+            self.points = np.array(np.linspace(start_point, end_point, p))
+            self.diameters = np.linspace(start_diameter, end_diameter, p)
+
+    def __init__(self, connectivity, points, diameters, num_points):
+        '''
+        Parameters:
+        - connectivity: Connectivity matrix
+            The row index of the matrix represents the branch number. 
+            The first column is the starting point of the branch,
+            and the second column is the ending point of the branch.
+        - points: List of points in 3d space
+        - diameters: List of diameters
+        - num_points: Number of points to generate per branch
+        '''
+        self.connectivity = np.array(connectivity)
+        self.points = np.array(points)
+        self.diameters = np.array(diameters)
+        self.num_points = np.array(num_points)
+
+    def draw_tree(self):
+        '''
+        Generates branch objects for each branch (row) in the 
+        connectivity matrix. 
+
+        TO-DO: Add support for different diameters at the start and end of the branch
+        '''
+        self.branches = []
+        for row in self.connectivity:
+            start_point = self.points[row[0]]
+            end_point = self.points[row[1]]
+            start_diameter = self.diameters[row[0]]
+            self.branches.append(NodalTree.Branch(start_point=start_point, 
+                                                  end_point=end_point, 
+                                                  start_diameter=start_diameter, 
+                                                  end_diameter=start_diameter, 
+                                                  num_points=self.num_points))
+            
+        return self.branches
         
 class Distortions():
     def __init__(self):

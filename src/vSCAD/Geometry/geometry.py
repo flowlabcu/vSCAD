@@ -10,31 +10,57 @@ import scipy.interpolate
 
 class Vessel():
     def __init__(self, name='vessel'):
+        '''
+        Initializes a Vessel object.
+        Parameters
+        ----------
+        name : str, optional
+            Name of the vessel, defaults to 'vessel'.
+        '''
         self.name = name
         self.scale_factor = 1.0
         pass
 
     def set_path(self, path):
         '''
-        Sets the path of the vessel as a list of points
+        Sets the path of the vessel as a list of points.
+
+        Parameters
+        ----------
+        path : array-like
+            List or array of points representing the vessel path.
         '''
         self.path = path * self.scale_factor
     
     def set_diameters(self, diams):
         '''
-        Sets the diameters of the vessel as a list of diameters
+        Sets the diameters of the vessel as a list of diameters.
+
+        Parameters
+        ----------
+        diams : array-like
+            List or array of diameters.
         '''
         self.diameters = diams * self.scale_factor
 
     def set_scale_factor(self, scale_factor):
         '''
-        Sets the scale factor for the vessel
+        Sets the scale factor for the vessel.
+
+        Parameters
+        ----------
+        scale_factor : float
+            Scale factor to apply to the vessel.
         '''
         self.scale_factor = scale_factor
 
     def get_direction_vectors(self):
         '''
-        Determine the direction vectors between each point in the path
+        Determine the direction vectors between each point in the path.
+
+        Returns
+        -------
+        None
         '''
         self.direction_vectors = []
         for i in range(len(self.path) - 1):
@@ -46,7 +72,11 @@ class Vessel():
 
     def get_euler_angles(self):
         '''
-        Determine the Euler angles between each point in the path
+        Determine the Euler angles between each point in the path.
+
+        Returns
+        -------
+        None
         '''
         self.euler_angles = []
         for i in range(len(self.direction_vectors)):
@@ -56,7 +86,12 @@ class Vessel():
 
     def interpolate_paths(self, n):
         '''
-        Interpolates the path and diameters of the vessel using cubic spline interpolation
+        Interpolates the path and diameters of the vessel using cubic spline interpolation.
+
+        Parameters
+        ----------
+        n : int
+            The number of additional points to add between original point pairs.
         '''
         self.path = GeometricFunctions.interpolate_coordinates_3d(self.path, n)
         self.diameters = GeometricFunctions.interpolate_scalar(self.diameters, n)
@@ -64,14 +99,19 @@ class Vessel():
 class GeometricFunctions():
     def interpolate_coordinates_3d(points, n):
         '''
-        Interpolates a list of points using cubic spline interpolation
+        Interpolates a list of points using cubic spline interpolation.
 
-        Parameters:
-        - points: List of points (3D), formatted as a list of lists
-        - n: The number of additional points to add between original point pairs  
-        
-        Returns:
-        - interpolated_points: A list of newly interpolated points
+        Parameters
+        ----------
+        points : array-like
+            List of points (3D), formatted as a list of lists.
+        n : int
+            The number of additional points to add between original point pairs.
+
+        Returns
+        -------
+        interpolated_points : ndarray
+            A list of newly interpolated points.
         '''
         points = np.array(points)
         t = np.arange(len(points)) 
@@ -97,14 +137,19 @@ class GeometricFunctions():
 
     def interpolate_scalar(scalar_data, n):
         '''
-        Interpolates a list of points using cubic spline interpolation
+        Interpolates a list of points using cubic spline interpolation.
 
-        Parameters:
-        - scalar_data: list of scalar
-        - n: The number of additional points to add between original point pairs  
-        
-        Returns:
-        - interpolated_scalar: A list of newly interpolated scalars
+        Parameters
+        ----------
+        scalar_data : array-like
+            List of scalar values.
+        n : int
+            The number of additional points to add between original point pairs.
+
+        Returns
+        -------
+        interpolated_scalar : ndarray
+            A list of newly interpolated scalars.
         '''
         scalar = np.array(scalar_data)
         t = np.arange(len(scalar_data))
@@ -120,27 +165,37 @@ class GeometricFunctions():
 
     def get_direction_vector(point1, point2):
         '''
-        Calculates the tangent vector between two points
+        Calculates the tangent vector between two points.
 
-        Parameters:
-        - point1: First point
-        - point2: Second point
+        Parameters
+        ----------
+        point1 : array-like
+            First point.
+        point2 : array-like
+            Second point.
 
-        Returns:
-        - tangent_vector: The normalized tangent vector between the two points 
+        Returns
+        -------
+        tangent_vector : ndarray
+            The normalized tangent vector between the two points.
         '''
         return (point2 - point1) / np.linalg.norm(point2 - point1)
     
     def direction_to_euler(direction, normal = None):
         '''
-        Converts a direction vector to Euler angles
-        
-        Parameters: 
-            Direction: The direction vector to convert
-            Normal: The normal vector of the plane to convert the direction vector to Euler angles, default is [0, 0, 1]
-        
-        Returns:
-            Euler angles in degrees (ZYX rotation)
+        Converts a direction vector to Euler angles.
+
+        Parameters
+        ----------
+        direction : array-like
+            The direction vector to convert.
+        normal : array-like, optional
+            The normal vector of the plane to convert the direction vector to Euler angles, default is [0, 0, 1].
+
+        Returns
+        -------
+        euler_angles : ndarray
+            Euler angles in degrees (ZYX rotation).
         '''
         # Default normal vector is [0, 0, 1]
         if normal is None:
@@ -193,17 +248,54 @@ class GeometricFunctions():
 
         return np.array([np.degrees(roll), np.degrees(pitch), np.degrees(yaw)])
         
+    def get_endpoints_normal(vessel, cross=None):
+        '''
+        Calculates the vector normal to the line between the first and last points of the vessel.
+
+        Parameters
+        ----------
+        vessel : Vessel
+            Vessel object.
+        cross : array-like, optional
+            Vector to cross with, default is None.
+
+        Returns
+        -------
+        normal : ndarray
+            Normalized normal vector.
+        '''
+        if cross is not None:
+            normal = np.cross(vessel.path[-1] - vessel.path[0], [1, 0, 0])
+            if np.linalg.norm(normal) < 1e-15:
+                return np.array([0, 1, 0])
+        
+        else:
+            normal = np.cross(vessel.path[-1] - vessel.path[0], cross)       
+        
+        return normal / np.linalg.norm(normal)
+    
 class Distortions():
     def __init__(self):
         pass
 
     def add_path_noise(vessel, noise_level=0.1, noise_type='x', hold=3):
         '''
-        Adds noise to the path of the vessel
+        Adds noise to the path of the vessel.
 
-        Parameters:
-        - vessel: Vessel object
-        - noise_level: The level of noise to add to the path
+        Parameters
+        ----------
+        vessel : Vessel
+            Vessel object.
+        noise_level : float, optional
+            The level of noise to add to the path (default is 0.1).
+        noise_type : str, optional
+            The type of noise to add: 'x', 'y', 'z', 'xy', 'xz', 'yz', or 'all' (default is 'x').
+        hold : int, optional
+            Number of points at each end to hold fixed (default is 3).
+
+        Returns
+        -------
+        None
         '''
         length = np.linalg.norm(vessel.path[0] - vessel.path[-1])
         noise_level = noise_level * length
@@ -249,6 +341,3 @@ class Distortions():
         vessel.path[:, 0] = x + x_noise
         vessel.path[:, 1] = y + y_noise
         vessel.path[:, 2] = z + z_noise
-
-
-

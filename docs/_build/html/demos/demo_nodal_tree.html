@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo Nodal Tree &mdash; vSCAD 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Remeshing an stl" href="demo_remeshing_stl.html" />
+    <link rel="prev" title="Demo Image Driven" href="demo_image_driven.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            vSCAD
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../toc_demo.html">vSCAD Demos</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="demo_fractal_tree.html">Demo Fractal Tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_image_driven.html">Demo Image Driven</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Demo Nodal Tree</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-project">Creating a project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-the-tree">Writing the Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-the-vessels">Writing the Vessels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-the-openscad-file">Writing the OpenSCAD file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-full-script">The full script</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="demo_remeshing_stl.html">Remeshing an stl</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../toc_modules.html">vSCAD Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">vSCAD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../toc_demo.html">vSCAD Demos</a></li>
+      <li class="breadcrumb-item active">Demo Nodal Tree</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/demos/demo_nodal_tree.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="demo-nodal-tree">
+<h1>Demo Nodal Tree<a class="headerlink" href="#demo-nodal-tree" title="Link to this heading"></a></h1>
+<p>In this demo, we will create a nodal tree using the <code class="docutils literal notranslate"><span class="pre">Tree</span></code> module in vSCAD.</p>
+<section id="creating-a-project">
+<h2>Creating a project<a class="headerlink" href="#creating-a-project" title="Link to this heading"></a></h2>
+<p>vSCAD uses a preset file structure to organize projects. After installing the package, you can create a new project by running the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>~/path/to/vSCAD/src/vSCAD/io/new_project.py
+</pre></div>
+</div>
+<p>This will create a new project in the current directory. The project directory will contain:
+1. <cite>vscad.py</cite>: The main script for generating the 3D model.
+2. <cite>image_data/</cite>: A directory for storing the point and diameter data.
+3. <cite>scad/</cite>: A directory for storing the OpenSCAD files.
+4. <cite>scad-stl/</cite>: A directory for storing the generated 3D models generated from OpenSCAD</p>
+<p>In this demo, we will not use the <code class="docutils literal notranslate"><span class="pre">image_data</span></code> directory.</p>
+</section>
+<section id="writing-the-tree">
+<h2>Writing the Tree<a class="headerlink" href="#writing-the-tree" title="Link to this heading"></a></h2>
+<p>Similar to the binary tree, we create a <code class="docutils literal notranslate"><span class="pre">NodalTree</span></code> object that contains <code class="docutils literal notranslate"><span class="pre">branches</span></code>. However,
+we must provide a list of nodes, or poits, diameters, and a connectivity matrix that
+defines how the nodes are connected through branches. We will describe the
+function of each of these components below.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Connectivity Matrix: A matrix that defines how the nodes (points) are connected.</dt><dd><p>The matrix is of the form <cite>[[0, 1], [1, 2], [2, 3]]</cite>, where each row defines a connection between two nodes.
+The row index of the connectivity matrix corresponds to the branch index. The elements of the matrix are are
+the node indices. For example, the first row <cite>[0, 1]</cite> defines a connection between nodes 0 and 1.</p>
+</dd>
+</dl>
+</li>
+<li><p>Points: A list of points that define the nodes of the tree. Each point is a tuple of the form <cite>(x, y, z)</cite>.</p></li>
+<li><p>Diameters: A list of diameters for each branch. The diameter is a scalar value.</p></li>
+</ul>
+<p>Each of these arrays must be a numpy array before being passed to the <code class="docutils literal notranslate"><span class="pre">NodalTree</span></code> object. Here,
+we will create a simple nodal tree with 4 nodes and 3 branches.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the points, diameters, and connectivity of the tree</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                   <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                   <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                   <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]])</span>
+
+<span class="n">diameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span>
+
+<span class="n">connectivity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>We now create a <code class="docutils literal notranslate"><span class="pre">NodalTree</span></code> object using the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nodal_tree</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">Tree</span><span class="o">.</span><span class="n">NodalTree</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="n">points</span><span class="p">,</span>
+                               <span class="n">diameters</span><span class="o">=</span><span class="n">diameters</span><span class="p">,</span>
+                               <span class="n">connectivity</span><span class="o">=</span><span class="n">connectivity</span><span class="p">,</span>
+                               <span class="n">num_points</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can specify the number of points in each branch by using the <cite>num_points</cite> argument.</p>
+</section>
+<section id="writing-the-vessels">
+<h2>Writing the Vessels<a class="headerlink" href="#writing-the-vessels" title="Link to this heading"></a></h2>
+<p>vSCAD uses the <code class="docutils literal notranslate"><span class="pre">Vessel</span></code> object as the main object for generating 3D models. In order
+to create a 3D model of the tree we just generated, we need to convert the tree object
+into a vessel object. <code class="docutils literal notranslate"><span class="pre">Tree</span></code> objects contain <code class="docutils literal notranslate"><span class="pre">branch</span></code> subobjects that contain
+the points and diameters of each branch. We can convert
+the <code class="docutils literal notranslate"><span class="pre">branch</span></code> subobjects into vessel objects using a for loop:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">branches</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">draw_tree</span><span class="p">()</span>
+
+<span class="c1"># Create a vessel object for each branch</span>
+<span class="n">vessel_object</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">:</span>
+    <span class="n">vessel_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;branch_</span><span class="si">{</span><span class="n">branches</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">vessel</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">Vessel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">vessel_name</span><span class="p">)</span>
+    <span class="n">vessel</span><span class="o">.</span><span class="n">set_scale_factor</span><span class="p">(</span><span class="n">scale_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">vessel</span><span class="o">.</span><span class="n">set_path</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+    <span class="n">vessel</span><span class="o">.</span><span class="n">set_diameters</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">diameters</span><span class="p">)</span>
+    <span class="n">vessel</span><span class="o">.</span><span class="n">interpolate_paths</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">vessel</span><span class="o">.</span><span class="n">get_direction_vectors</span><span class="p">()</span>
+    <span class="n">vessel</span><span class="o">.</span><span class="n">get_euler_angles</span><span class="p">()</span>
+    <span class="n">vessel_object</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vessel</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, we’ve given the data within the <code class="docutils literal notranslate"><span class="pre">branch</span></code> object to a new <code class="docutils literal notranslate"><span class="pre">vessel</span></code> object. We give each
+<code class="docutils literal notranslate"><span class="pre">vessel</span></code> object a unique name and append it to a list. We then interpolate the paths,
+get the direction vectors, and get the Euler angles used in OpenSCAD.</p>
+</section>
+<section id="writing-the-openscad-file">
+<h2>Writing the OpenSCAD file<a class="headerlink" href="#writing-the-openscad-file" title="Link to this heading"></a></h2>
+<p>We can now write the OpenSCAD file. We will import the <code class="docutils literal notranslate"><span class="pre">Vessel</span></code> objects we created to the
+OpenSCAD file. We will also import lofting modules:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">scad_file</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">SCADFile</span><span class="p">(</span><span class="s1">&#39;vessel.scad&#39;</span><span class="p">)</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">import_circle_at</span><span class="p">()</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">import_loft_path</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="nb">object</span> <span class="ow">in</span> <span class="n">vessel_object</span><span class="p">:</span>
+    <span class="n">scad_file</span><span class="o">.</span><span class="n">import_vessel</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, we need to loft each vessel and merge their geometries:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">start_union</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="nb">object</span> <span class="ow">in</span> <span class="n">vessel_object</span><span class="p">:</span>
+    <span class="n">scad_file</span><span class="o">.</span><span class="n">loft_path</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, we can write the OpenSCAD file:
+.. code-block:: python</p>
+<blockquote>
+<div><p>scad_file.modules.end_union()
+scad_file.write_scad_file(‘nodal_tree.scad’)</p>
+</div></blockquote>
+</section>
+<section id="the-full-script">
+<h2>The full script<a class="headerlink" href="#the-full-script" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">vSCAD</span> <span class="k">as</span> <span class="nn">vs</span>
+
+<span class="n">scad_file</span> <span class="o">=</span> <span class="s1">&#39;demo_nodal_tree.scad&#39;</span>
+<span class="c1"># Scad file written at scad/demo_nodal_tree.scad</span>
+
+<span class="c1"># ---- Draw a nodal tree with 4 levels of recursion ---- #</span>
+<span class="c1"># Define the points, diameters, and connectivity of the tree</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+                <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]])</span>
+
+<span class="c1"># include end diameter of final branch</span>
+<span class="n">diameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">])</span>
+
+<span class="n">connectivity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+
+<span class="c1"># ---- Create the NodeTree object ---- #</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">NodalTree</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">diameters</span><span class="p">,</span> <span class="n">num_points</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">branches</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">draw_tree</span><span class="p">()</span>
+
+<span class="c1"># Create a vessel object for each branch</span>
+<span class="n">vessel_object</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">:</span>
+    <span class="n">vessel_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;branch_</span><span class="si">{</span><span class="n">branches</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">vessel</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">Vessel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">vessel_name</span><span class="p">)</span>
+    <span class="n">vessel</span><span class="o">.</span><span class="n">set_scale_factor</span><span class="p">(</span><span class="n">scale_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">vessel</span><span class="o">.</span><span class="n">set_path</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">points</span><span class="p">)</span>
+    <span class="n">vessel</span><span class="o">.</span><span class="n">set_diameters</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">diameters</span><span class="p">)</span>
+    <span class="n">vessel</span><span class="o">.</span><span class="n">interpolate_paths</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">vessel</span><span class="o">.</span><span class="n">get_direction_vectors</span><span class="p">()</span>
+    <span class="n">vessel</span><span class="o">.</span><span class="n">get_euler_angles</span><span class="p">()</span>
+    <span class="n">vessel_object</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vessel</span><span class="p">)</span>
+
+<span class="c1"># ---- Prepare OpenSCAD file ---- #</span>
+<span class="n">scad_file</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">SCADFile</span><span class="p">(</span><span class="s1">&#39;vessel.scad&#39;</span><span class="p">)</span>
+
+<span class="c1"># ---- Import OpenSCAD functions ---- #</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">import_circle_at</span><span class="p">()</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">import_loft_path</span><span class="p">()</span>
+
+<span class="c1"># ---- Import vessel data ---- #</span>
+<span class="k">for</span> <span class="nb">object</span> <span class="ow">in</span> <span class="n">vessel_object</span><span class="p">:</span>
+    <span class="n">scad_file</span><span class="o">.</span><span class="n">import_vessel</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+
+<span class="c1"># ---- Write OpenSCAD code ---- #</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">start_union</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="nb">object</span> <span class="ow">in</span> <span class="n">vessel_object</span><span class="p">:</span>
+    <span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">function_loft_path</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">end_union</span><span class="p">()</span>
+
+<span class="n">scad_file</span><span class="o">.</span><span class="n">write_stl</span><span class="p">(</span><span class="s1">&#39;nodal_tree.stl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="demo_image_driven.html" class="btn btn-neutral float-left" title="Demo Image Driven" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="demo_remeshing_stl.html" class="btn btn-neutral float-right" title="Remeshing an stl" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Nick Rovito.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -16,7 +16,7 @@ maintainers = [
 classifiers = [
 
 ]
-license = {text = "GNU LGPL 2 license"}
+license = {text = "GNU GPL Version 2"}
 dependencies = [
   
 ]

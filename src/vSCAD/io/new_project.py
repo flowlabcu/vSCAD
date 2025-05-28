@@ -1,12 +1,9 @@
 import os
 
-
 class vSCADProject():
     def __init__(self, project_name):
         self.project_name = project_name
         self.root = os.path.join(os.getcwd(), project_name)
-
-
         self.create_project()
 
         pass
@@ -37,8 +34,6 @@ class vSCADProject():
 
         return
 
-
-
     def create_directories(self):
         '''
         Create directories for a new vSCAD project.
@@ -54,12 +49,10 @@ class vSCADProject():
         except Exception as e:
             print(f'An error occurred: {e}')
 
-
-
 if __name__ == '__main__':
     '''
     Executable script to create a new vSCAD project in the current working directory.
     '''
 
-    project_name = input('openSCAD project name: ')
+    project_name = input('vSCAD project name: ')
     project = vSCADProject(project_name)

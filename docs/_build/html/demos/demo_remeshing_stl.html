@@ -1,0 +1,218 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Remeshing an stl &mdash; vSCAD 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="vSCAD Modules" href="../toc_modules.html" />
+    <link rel="prev" title="Demo Nodal Tree" href="demo_nodal_tree.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            vSCAD
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../toc_demo.html">vSCAD Demos</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="demo_fractal_tree.html">Demo Fractal Tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_image_driven.html">Demo Image Driven</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_nodal_tree.html">Demo Nodal Tree</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Remeshing an stl</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#importing-the-openscad-generated-stl-file">Importing the OpenSCAD-generated STL file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adjusting-the-remeshing-parameters">Adjusting the remeshing parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-full-script">The full script</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../toc_modules.html">vSCAD Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">vSCAD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../toc_demo.html">vSCAD Demos</a></li>
+      <li class="breadcrumb-item active">Remeshing an stl</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/demos/demo_remeshing_stl.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="remeshing-an-stl">
+<h1>Remeshing an stl<a class="headerlink" href="#remeshing-an-stl" title="Link to this heading"></a></h1>
+<p>OpenSCAD, like most CAD programs, does not generate nice surface meshes for use in CFD. The surface mesh is often very coarse and not isotropic. This can lead to poor quality simulations.
+To improve the mesh quality, we can use the <cite>pyMeshLab</cite> package to remesh the stl file.</p>
+<p>Here, we demonstrate a <cite>pyMeshLab</cite> wrapper function that can be used to remesh the stl file.</p>
+<p>This script demonstrates the remeshing of an STL file using the vSCAD library.</p>
+<section id="importing-the-openscad-generated-stl-file">
+<h2>Importing the OpenSCAD-generated STL file<a class="headerlink" href="#importing-the-openscad-generated-stl-file" title="Link to this heading"></a></h2>
+<p>First, we import the OpenSCAD-generated STL file that we want to remesh. We pass
+the path to the STL file to the <cite>Remesh</cite> class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">vSCAD</span> <span class="k">as</span> <span class="nn">vs</span>
+
+<span class="n">stl_path</span> <span class="o">=</span> <span class="s1">&#39;scad-stl/vessel.stl&#39;</span>
+
+<span class="n">remesh</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">Remesh</span><span class="p">(</span><span class="n">stl_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="adjusting-the-remeshing-parameters">
+<h2>Adjusting the remeshing parameters<a class="headerlink" href="#adjusting-the-remeshing-parameters" title="Link to this heading"></a></h2>
+<p>Next, we set the remeshing parameters. We first set the coursest isotropic cell diameter to use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">remesh</span><span class="o">.</span><span class="n">set_initial_target_length_percentage</span><span class="p">(</span><span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This sets the initial target length as a percentage (0.6%) of the bounding box diagonal.</p>
+<p>We also set the final target length:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">remesh</span><span class="o">.</span><span class="n">set_final_target_length_percentage</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We will then set the target length reduction step size:
+Here we set it to 0.1% of the bounding box diagonal.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">remesh</span><span class="o">.</span><span class="n">set_target_length_reduction_step_size</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will recursively remesh the geometry until the target length is reached.</p>
+<p>We can additionally set the number of isotropic remeshing iterations and smoothing
+iterations for each recursive remeshing step:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">remesh</span><span class="o">.</span><span class="n">set_isotropic_remeshing_iterations</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_recursive_smoothing_iterations</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, we set the final smoothing iterations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">remesh</span><span class="o">.</span><span class="n">set_final_smoothing_iterations</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We also can save the mesh at a specified interval during the remeshing process.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">remesh</span><span class="o">.</span><span class="n">set_saveout_period</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, with these parameters set, we can perform the remeshing process and save
+the final STL file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">remesh</span><span class="o">.</span><span class="n">remesh_stl</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The full script is shown below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">vSCAD</span> <span class="k">as</span> <span class="nn">vs</span>
+
+<span class="n">stl_path</span> <span class="o">=</span> <span class="s1">&#39;scad-stl/vessel.stl&#39;</span>
+
+<span class="n">remesh</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">Remesh</span><span class="p">(</span><span class="n">stl_path</span><span class="p">)</span>
+
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_initial_target_length_percentage</span><span class="p">(</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_final_target_length_percentage</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_target_length_reduction_step_size</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_isotropic_remeshing_iterations</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_recursive_smoothing_iterations</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_final_smoothing_iterations</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_saveout_period</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">remesh</span><span class="o">.</span><span class="n">remesh_stl</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="the-full-script">
+<h2>The full script<a class="headerlink" href="#the-full-script" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">vSCAD</span> <span class="k">as</span> <span class="nn">vs</span>
+
+<span class="c1"># Path to the OpenSCAD-generated STL file</span>
+<span class="n">stl_path</span> <span class="o">=</span> <span class="s1">&#39;scad-stl/vessel.stl&#39;</span>
+
+<span class="c1"># Create a Remesh object</span>
+<span class="n">remesh</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">Remesh</span><span class="p">(</span><span class="n">stl_path</span><span class="p">)</span>
+
+<span class="c1"># Set remeshing parameters</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_initial_target_length_percentage</span><span class="p">(</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_final_target_length_percentage</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_target_length_reduction_step_size</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_isotropic_remeshing_iterations</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_recursive_smoothing_iterations</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_final_smoothing_iterations</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">set_saveout_period</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Perform the remeshing process</span>
+<span class="n">remesh</span><span class="o">.</span><span class="n">remesh_stl</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="demo_nodal_tree.html" class="btn btn-neutral float-left" title="Demo Nodal Tree" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../toc_modules.html" class="btn btn-neutral float-right" title="vSCAD Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Nick Rovito.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

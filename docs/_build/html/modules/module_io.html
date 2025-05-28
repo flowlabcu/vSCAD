@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I/O &mdash; vSCAD 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Meshing" href="module_meshing.html" />
+    <link rel="prev" title="Geometry" href="module_geometry.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            vSCAD
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../toc_demo.html">vSCAD Demos</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../toc_modules.html">vSCAD Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="module_geometry.html">Geometry</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">I/O</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-vSCAD.io.imagej_reader">ImageJ Reader</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vSCAD.io.imagej_reader.ImageJReader"><code class="docutils literal notranslate"><span class="pre">ImageJReader</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-vSCAD.io.new_project">New vSCAD Project</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vSCAD.io.new_project.vSCADProject"><code class="docutils literal notranslate"><span class="pre">vSCADProject</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-vSCAD.io.write_scad">SCAD Writer</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#vSCAD.io.write_scad.OpenSCADFunctions"><code class="docutils literal notranslate"><span class="pre">OpenSCADFunctions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vSCAD.io.write_scad.SCADFile"><code class="docutils literal notranslate"><span class="pre">SCADFile</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="module_meshing.html">Meshing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_tree.html">Tree</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">vSCAD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../toc_modules.html">vSCAD Modules</a></li>
+      <li class="breadcrumb-item active">I/O</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/module_io.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="i-o">
+<h1>I/O<a class="headerlink" href="#i-o" title="Link to this heading"></a></h1>
+<section id="module-vSCAD.io.imagej_reader">
+<span id="imagej-reader"></span><h2>ImageJ Reader<a class="headerlink" href="#module-vSCAD.io.imagej_reader" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="vSCAD.io.imagej_reader.ImageJReader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vSCAD.io.imagej_reader.</span></span><span class="sig-name descname"><span class="pre">ImageJReader</span></span><a class="reference internal" href="../_modules/vSCAD/io/imagej_reader.html#ImageJReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.imagej_reader.ImageJReader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.imagej_reader.ImageJReader.get_diam">
+<span class="sig-name descname"><span class="pre">get_diam</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/imagej_reader.html#ImageJReader.get_diam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.imagej_reader.ImageJReader.get_diam" title="Link to this definition"></a></dt>
+<dd><p>Returns the diameters of the vessel as a list of diameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>csv_path</strong> (<em>str</em>) – The path to the CSV file containing the vessel data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A 1D numpy array containing the diameters of the vessel.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.imagej_reader.ImageJReader.get_path">
+<span class="sig-name descname"><span class="pre">get_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/imagej_reader.html#ImageJReader.get_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.imagej_reader.ImageJReader.get_path" title="Link to this definition"></a></dt>
+<dd><p>Returns the path of the vessel as a list of points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>csv_path</strong> (<em>str</em>) – The path to the CSV file containing the vessel data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A 2D numpy array where each row represents a point in the vessel path.
+The first two columns are the X and Y coordinates, and the third column is filled with zeros.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-vSCAD.io.new_project">
+<span id="new-vscad-project"></span><h2>New vSCAD Project<a class="headerlink" href="#module-vSCAD.io.new_project" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="vSCAD.io.new_project.vSCADProject">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vSCAD.io.new_project.</span></span><span class="sig-name descname"><span class="pre">vSCADProject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/new_project.html#vSCADProject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.new_project.vSCADProject" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.new_project.vSCADProject.create_directories">
+<span class="sig-name descname"><span class="pre">create_directories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/new_project.html#vSCADProject.create_directories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.new_project.vSCADProject.create_directories" title="Link to this definition"></a></dt>
+<dd><p>Create directories for a new vSCAD project.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.new_project.vSCADProject.create_project">
+<span class="sig-name descname"><span class="pre">create_project</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/new_project.html#vSCADProject.create_project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.new_project.vSCADProject.create_project" title="Link to this definition"></a></dt>
+<dd><p>Create a new vSCAD project in the current working directory.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.new_project.vSCADProject.create_vSCAD_python_file">
+<span class="sig-name descname"><span class="pre">create_vSCAD_python_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/new_project.html#vSCADProject.create_vSCAD_python_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.new_project.vSCADProject.create_vSCAD_python_file" title="Link to this definition"></a></dt>
+<dd><p>Create a vSCAD python file in the project root directory.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-vSCAD.io.write_scad">
+<span id="scad-writer"></span><h2>SCAD Writer<a class="headerlink" href="#module-vSCAD.io.write_scad" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="vSCAD.io.write_scad.OpenSCADFunctions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vSCAD.io.write_scad.</span></span><span class="sig-name descname"><span class="pre">OpenSCADFunctions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/write_scad.html#OpenSCADFunctions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.write_scad.OpenSCADFunctions" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.write_scad.OpenSCADFunctions.end_union">
+<span class="sig-name descname"><span class="pre">end_union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/write_scad.html#OpenSCADFunctions.end_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.write_scad.OpenSCADFunctions.end_union" title="Link to this definition"></a></dt>
+<dd><p>End a union block in the SCAD file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.write_scad.OpenSCADFunctions.function_loft_path">
+<span class="sig-name descname"><span class="pre">function_loft_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vessel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/write_scad.html#OpenSCADFunctions.function_loft_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.write_scad.OpenSCADFunctions.function_loft_path" title="Link to this definition"></a></dt>
+<dd><p>Create a loft path function in OpenSCAD for a given vessel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vessel</strong> (<a class="reference internal" href="module_geometry.html#vSCAD.Geometry.geometry.Vessel" title="vSCAD.Geometry.geometry.Vessel"><em>Vessel</em></a>) – Vessel object containing name, path, diameters, and euler_angles.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.write_scad.OpenSCADFunctions.import_circle_at">
+<span class="sig-name descname"><span class="pre">import_circle_at</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/write_scad.html#OpenSCADFunctions.import_circle_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.write_scad.OpenSCADFunctions.import_circle_at" title="Link to this definition"></a></dt>
+<dd><p>Import the circle_at module into the SCAD file.</p>
+<p>The circle_at function creates a cylinder with a given diameter and angle.
+OpenSCAD cannot loft (hold()) circles (or other 2D objects), so we
+create a cylinder with a small height (0.01) to represent the lofted circle.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.write_scad.OpenSCADFunctions.import_loft_path">
+<span class="sig-name descname"><span class="pre">import_loft_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/write_scad.html#OpenSCADFunctions.import_loft_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.write_scad.OpenSCADFunctions.import_loft_path" title="Link to this definition"></a></dt>
+<dd><p>Import the loft_path module into the SCAD file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.write_scad.OpenSCADFunctions.set_fragments">
+<span class="sig-name descname"><span class="pre">set_fragments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragments</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/write_scad.html#OpenSCADFunctions.set_fragments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.write_scad.OpenSCADFunctions.set_fragments" title="Link to this definition"></a></dt>
+<dd><p>Set the number of fragments for OpenSCAD to draw circles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fragments</strong> (<em>int</em>) – Number of fragments for circle rendering.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.write_scad.OpenSCADFunctions.set_thickness">
+<span class="sig-name descname"><span class="pre">set_thickness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thickness</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/write_scad.html#OpenSCADFunctions.set_thickness"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.write_scad.OpenSCADFunctions.set_thickness" title="Link to this definition"></a></dt>
+<dd><p>Set the thickness of the lofted circle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>thickness</strong> (<em>float</em>) – Thickness of the lofted circle.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.write_scad.OpenSCADFunctions.start_union">
+<span class="sig-name descname"><span class="pre">start_union</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/write_scad.html#OpenSCADFunctions.start_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.write_scad.OpenSCADFunctions.start_union" title="Link to this definition"></a></dt>
+<dd><p>Start a union block in the SCAD file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="vSCAD.io.write_scad.SCADFile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vSCAD.io.write_scad.</span></span><span class="sig-name descname"><span class="pre">SCADFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/write_scad.html#SCADFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.write_scad.SCADFile" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.write_scad.SCADFile.create_file">
+<span class="sig-name descname"><span class="pre">create_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/write_scad.html#SCADFile.create_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.write_scad.SCADFile.create_file" title="Link to this definition"></a></dt>
+<dd><p>Create a new SCAD file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.write_scad.SCADFile.import_vessel">
+<span class="sig-name descname"><span class="pre">import_vessel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vessel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/write_scad.html#SCADFile.import_vessel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.write_scad.SCADFile.import_vessel" title="Link to this definition"></a></dt>
+<dd><p>Import a vessel data into the SCAD file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vessel</strong> (<a class="reference internal" href="module_geometry.html#vSCAD.Geometry.geometry.Vessel" title="vSCAD.Geometry.geometry.Vessel"><em>Vessel</em></a>) – Vessel object containing path, diameters, and euler_angles.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.io.write_scad.SCADFile.write_stl">
+<span class="sig-name descname"><span class="pre">write_stl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">custom_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/vSCAD/io/write_scad.html#SCADFile.write_stl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.io.write_scad.SCADFile.write_stl" title="Link to this definition"></a></dt>
+<dd><p>Write the SCAD file to an STL file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>custom_name</strong> (<em>str</em><em>, </em><em>optional</em>) – Custom name for the STL file. If not provided, the STL file will be named after the SCAD file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="module_geometry.html" class="btn btn-neutral float-left" title="Geometry" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="module_meshing.html" class="btn btn-neutral float-right" title="Meshing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Nick Rovito.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

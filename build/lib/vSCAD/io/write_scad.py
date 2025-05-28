@@ -107,7 +107,7 @@ class OpenSCADFunctions():
             f.write(f'module circle_at(position, diameter, angle) {{ \n')
             f.write(f'    translate(position) {{\n')
             f.write(f'        rotate(angle) {{\n')
-            f.write(f'            cylinder({self.thickness}, d = diameter, $fn=round(rands(24,26,1)[0]));\n')
+            f.write(f'            cylinder({self.thickness}, d = diameter, $fn={self.fragments});\n')
             f.write(f'        }}\n')
             f.write(f'    }}\n')
             f.write(f'}}\n\n')

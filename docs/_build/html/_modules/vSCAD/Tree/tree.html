@@ -41,10 +41,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_geometry.html">Geometry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_tree.html">Tree</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../demo.html">Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../toc_demo.html">vSCAD Demos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../toc_modules.html">vSCAD Modules</a></li>
 </ul>
 
         </div>
@@ -75,9 +74,25 @@
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <div class="viewcode-block" id="Branch">
-<a class="viewcode-back" href="../../../module_tree.html#vSCAD.Tree.tree.Branch">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_tree.html#vSCAD.Tree.tree.Branch">[docs]</a>
 <span class="k">class</span> <span class="nc">Branch</span><span class="p">():</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_point</span><span class="p">,</span> <span class="n">end_point</span><span class="p">,</span> <span class="n">start_diameter</span><span class="p">,</span> <span class="n">end_diameter</span><span class="p">,</span> <span class="n">num_points</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initializes a Branch object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start_point : np.ndarray</span>
+<span class="sd">            The starting point of the branch.</span>
+<span class="sd">        end_point : np.ndarray</span>
+<span class="sd">            The ending point of the branch.</span>
+<span class="sd">        start_diameter : float</span>
+<span class="sd">            The diameter at the starting point of the branch.</span>
+<span class="sd">        end_diameter : float</span>
+<span class="sd">            The diameter at the ending point of the branch.</span>
+<span class="sd">        num_points : int</span>
+<span class="sd">            The number of points to generate in the branch.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_point</span> <span class="o">=</span> <span class="n">start_point</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_point</span> <span class="o">=</span> <span class="n">end_point</span>
         
@@ -91,9 +106,27 @@
 
 
 <div class="viewcode-block" id="BinaryTree">
-<a class="viewcode-back" href="../../../module_tree.html#vSCAD.Tree.tree.BinaryTree">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_tree.html#vSCAD.Tree.tree.BinaryTree">[docs]</a>
 <span class="k">class</span> <span class="nc">BinaryTree</span><span class="p">():</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_point</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">diameter</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">num_points_base</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initializes a BinaryTree object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start_point : np.ndarray</span>
+<span class="sd">            The starting point of the tree.</span>
+<span class="sd">        length : float</span>
+<span class="sd">            The length of the main branch.</span>
+<span class="sd">        angle : float</span>
+<span class="sd">            The bifurcation angle in radians.</span>
+<span class="sd">        depth : int</span>
+<span class="sd">            The depth of the tree.</span>
+<span class="sd">        diameter : float, optional</span>
+<span class="sd">            The diameter of the main branch, defaults to 2.</span>
+<span class="sd">        num_points_base : int, optional</span>
+<span class="sd">            The number of points to generate in the base branch, defaults to 100.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start_point</span> <span class="o">=</span> <span class="n">start_point</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">length</span>    
         <span class="bp">self</span><span class="o">.</span><span class="n">bifurcation_angle</span> <span class="o">=</span> <span class="n">angle</span>  
@@ -105,41 +138,75 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">branch_length_reduction</span> <span class="o">=</span> <span class="mf">0.7</span>
 
 <div class="viewcode-block" id="BinaryTree.set_murray_exponent">
-<a class="viewcode-back" href="../../../module_tree.html#vSCAD.Tree.tree.BinaryTree.set_murray_exponent">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_tree.html#vSCAD.Tree.tree.BinaryTree.set_murray_exponent">[docs]</a>
     <span class="k">def</span> <span class="nf">set_murray_exponent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the Murray&#39;s law exponent for the tree generation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        exponent : float</span>
+<span class="sd">            The exponent value to use in Murray&#39;s law.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">murray_exponent</span> <span class="o">=</span> <span class="n">exponent</span></div>
 
 
 <div class="viewcode-block" id="BinaryTree.set_branch_length_reduction">
-<a class="viewcode-back" href="../../../module_tree.html#vSCAD.Tree.tree.BinaryTree.set_branch_length_reduction">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_tree.html#vSCAD.Tree.tree.BinaryTree.set_branch_length_reduction">[docs]</a>
     <span class="k">def</span> <span class="nf">set_branch_length_reduction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reduction</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the branch length reduction factor for the tree generation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        reduction : float</span>
+<span class="sd">            The reduction factor for branch length.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">branch_length_reduction</span> <span class="o">=</span> <span class="n">reduction</span></div>
 
 
 <div class="viewcode-block" id="BinaryTree.draw_tree">
-<a class="viewcode-back" href="../../../module_tree.html#vSCAD.Tree.tree.BinaryTree.draw_tree">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_tree.html#vSCAD.Tree.tree.BinaryTree.draw_tree">[docs]</a>
     <span class="k">def</span> <span class="nf">draw_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Begins recursive tree generation</span>
+<span class="sd">        Begins recursive tree generation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of Branch</span>
+<span class="sd">            A list of Branch objects representing the generated tree.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">branches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_point</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_points_base</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span></div>
 
 
 <div class="viewcode-block" id="BinaryTree.generate_tree">
-<a class="viewcode-back" href="../../../module_tree.html#vSCAD.Tree.tree.BinaryTree.generate_tree">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_tree.html#vSCAD.Tree.tree.BinaryTree.generate_tree">[docs]</a>
     <span class="k">def</span> <span class="nf">generate_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_point</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">diameter</span><span class="p">,</span> <span class="n">num_points</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">depth</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Generates a Binary tree</span>
+<span class="sd">        Generates a binary tree structure recursively.</span>
 
-<span class="sd">        Parameters:</span>
-<span class="sd">        - start_point: The starting point of the tree</span>
-<span class="sd">        - length: The length of the brach</span>
-<span class="sd">        - diameter: The diameter of the branch</span>
-<span class="sd">        - num_points: The number of points to generate in the branch</span>
-<span class="sd">        - angle: The angle of the tree</span>
-<span class="sd">        - depth: The depth of the tree</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        start_point : np.ndarray</span>
+<span class="sd">            The starting point of the current branch as a 3D coordinate.</span>
+<span class="sd">        length : float</span>
+<span class="sd">            The length of the current branch.</span>
+<span class="sd">        diameter : float</span>
+<span class="sd">            The diameter of the current branch.</span>
+<span class="sd">        num_points : int</span>
+<span class="sd">            The number of points to generate along the branch.</span>
+<span class="sd">        angle : float</span>
+<span class="sd">            The angle (in radians) of the current branch relative to the parent.</span>
+<span class="sd">        depth : int</span>
+<span class="sd">            The remaining depth of recursion (number of branching levels).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of Branch</span>
+<span class="sd">            A list of Branch objects representing the generated tree structure.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+       
         <span class="k">if</span> <span class="n">depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
         
@@ -171,25 +238,43 @@
 
 
 <div class="viewcode-block" id="BinaryTree.calculate_diameter">
-<a class="viewcode-back" href="../../../module_tree.html#vSCAD.Tree.tree.BinaryTree.calculate_diameter">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_tree.html#vSCAD.Tree.tree.BinaryTree.calculate_diameter">[docs]</a>
     <span class="k">def</span> <span class="nf">calculate_diameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diameter</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculates the diameter of the branch based on Murray&#39;s law.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        diameter : float</span>
+<span class="sd">            The diameter of the parent branch.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The calculated diameter for the child branch.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">diameter</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">murray_exponent</span><span class="p">))</span></div>
 </div>
 
 
 <div class="viewcode-block" id="NodalTree">
-<a class="viewcode-back" href="../../../module_tree.html#vSCAD.Tree.tree.NodalTree">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_tree.html#vSCAD.Tree.tree.NodalTree">[docs]</a>
 <span class="k">class</span> <span class="nc">NodalTree</span><span class="p">():</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connectivity</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">diameters</span><span class="p">,</span> <span class="n">num_points</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Parameters:</span>
-<span class="sd">        - connectivity: Connectivity matrix</span>
-<span class="sd">            The row index of the matrix represents the branch number. </span>
-<span class="sd">            The first column is the starting point of the branch,</span>
-<span class="sd">            and the second column is the ending point of the branch.</span>
-<span class="sd">        - points: List of points in 3d space</span>
-<span class="sd">        - diameters: List of diameters</span>
-<span class="sd">        - num_points: Number of points to generate per branch</span>
+<span class="sd">        Initializes a NodalTree object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        connectivity : array_like</span>
+<span class="sd">            Connectivity matrix. The row index of the matrix represents the branch number. </span>
+<span class="sd">            The first column is the starting point of the branch, and the second column is the ending point of the branch.</span>
+<span class="sd">        points : array_like</span>
+<span class="sd">            List of points in 3D space.</span>
+<span class="sd">        diameters : array_like</span>
+<span class="sd">            List of diameters.</span>
+<span class="sd">        num_points : int</span>
+<span class="sd">            Number of points to generate per branch.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connectivity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">connectivity</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
@@ -197,23 +282,26 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">num_points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">num_points</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NodalTree.draw_tree">
-<a class="viewcode-back" href="../../../module_tree.html#vSCAD.Tree.tree.NodalTree.draw_tree">[docs]</a>
+<a class="viewcode-back" href="../../../modules/module_tree.html#vSCAD.Tree.tree.NodalTree.draw_tree">[docs]</a>
     <span class="k">def</span> <span class="nf">draw_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Generates branch objects for each branch (row) in the </span>
-<span class="sd">        connectivity matrix. </span>
+<span class="sd">        Generates branch objects for each branch (row) in the connectivity matrix.</span>
 
-<span class="sd">        TO-DO: Add support for different diameters at the start and end of the branch</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of Branch</span>
+<span class="sd">            A list of Branch objects.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">branches</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">connectivity</span><span class="p">:</span>
             <span class="n">start_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
             <span class="n">end_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
             <span class="n">start_diameter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameters</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">end_diameter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameters</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">branches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Branch</span><span class="p">(</span><span class="n">start_point</span><span class="o">=</span><span class="n">start_point</span><span class="p">,</span> 
                                         <span class="n">end_point</span><span class="o">=</span><span class="n">end_point</span><span class="p">,</span> 
                                         <span class="n">start_diameter</span><span class="o">=</span><span class="n">start_diameter</span><span class="p">,</span> 
-                                        <span class="n">end_diameter</span><span class="o">=</span><span class="n">start_diameter</span><span class="p">,</span> 
+                                        <span class="n">end_diameter</span><span class="o">=</span><span class="n">end_diameter</span><span class="p">,</span> 
                                         <span class="n">num_points</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_points</span><span class="p">))</span>
             
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">branches</span></div>
