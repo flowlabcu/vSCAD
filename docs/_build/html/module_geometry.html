@@ -1,0 +1,243 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geometry &mdash; vSCAD 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tree" href="module_tree.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            vSCAD
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Geometry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#vSCAD.Geometry.geometry.Distortions"><code class="docutils literal notranslate"><span class="pre">Distortions</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vSCAD.Geometry.geometry.Distortions.add_path_noise"><code class="docutils literal notranslate"><span class="pre">Distortions.add_path_noise()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#vSCAD.Geometry.geometry.GeometricFunctions"><code class="docutils literal notranslate"><span class="pre">GeometricFunctions</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vSCAD.Geometry.geometry.GeometricFunctions.direction_to_euler"><code class="docutils literal notranslate"><span class="pre">GeometricFunctions.direction_to_euler()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vSCAD.Geometry.geometry.GeometricFunctions.get_direction_vector"><code class="docutils literal notranslate"><span class="pre">GeometricFunctions.get_direction_vector()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vSCAD.Geometry.geometry.GeometricFunctions.interpolate_coordinates_3d"><code class="docutils literal notranslate"><span class="pre">GeometricFunctions.interpolate_coordinates_3d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vSCAD.Geometry.geometry.GeometricFunctions.interpolate_scalar"><code class="docutils literal notranslate"><span class="pre">GeometricFunctions.interpolate_scalar()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#vSCAD.Geometry.geometry.Vessel"><code class="docutils literal notranslate"><span class="pre">Vessel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vSCAD.Geometry.geometry.Vessel.get_direction_vectors"><code class="docutils literal notranslate"><span class="pre">Vessel.get_direction_vectors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vSCAD.Geometry.geometry.Vessel.get_euler_angles"><code class="docutils literal notranslate"><span class="pre">Vessel.get_euler_angles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vSCAD.Geometry.geometry.Vessel.interpolate_paths"><code class="docutils literal notranslate"><span class="pre">Vessel.interpolate_paths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vSCAD.Geometry.geometry.Vessel.set_diameters"><code class="docutils literal notranslate"><span class="pre">Vessel.set_diameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vSCAD.Geometry.geometry.Vessel.set_path"><code class="docutils literal notranslate"><span class="pre">Vessel.set_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vSCAD.Geometry.geometry.Vessel.set_scale_factor"><code class="docutils literal notranslate"><span class="pre">Vessel.set_scale_factor()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_tree.html">Tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo.html">Demos</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">vSCAD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">&lt;no title&gt;</a></li>
+      <li class="breadcrumb-item active">Geometry</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/module_geometry.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-vSCAD.Geometry.geometry">
+<span id="geometry"></span><h1>Geometry<a class="headerlink" href="#module-vSCAD.Geometry.geometry" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.Distortions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vSCAD.Geometry.geometry.</span></span><span class="sig-name descname"><span class="pre">Distortions</span></span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#Distortions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.Distortions" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.Distortions.add_path_noise">
+<span class="sig-name descname"><span class="pre">add_path_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noise_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'x'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#Distortions.add_path_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.Distortions.add_path_noise" title="Link to this definition"></a></dt>
+<dd><p>Adds noise to the path of the vessel</p>
+<p>Parameters:
+- vessel: Vessel object
+- noise_level: The level of noise to add to the path</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.GeometricFunctions">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vSCAD.Geometry.geometry.</span></span><span class="sig-name descname"><span class="pre">GeometricFunctions</span></span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#GeometricFunctions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.GeometricFunctions" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.GeometricFunctions.direction_to_euler">
+<span class="sig-name descname"><span class="pre">direction_to_euler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">normal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#GeometricFunctions.direction_to_euler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.GeometricFunctions.direction_to_euler" title="Link to this definition"></a></dt>
+<dd><p>Converts a direction vector to Euler angles</p>
+<dl class="simple">
+<dt>Parameters: </dt><dd><p>Direction: The direction vector to convert
+Normal: The normal vector of the plane to convert the direction vector to Euler angles, default is [0, 0, 1]</p>
+</dd>
+<dt>Returns:</dt><dd><p>Euler angles in degrees (ZYX rotation)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.GeometricFunctions.get_direction_vector">
+<span class="sig-name descname"><span class="pre">get_direction_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#GeometricFunctions.get_direction_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.GeometricFunctions.get_direction_vector" title="Link to this definition"></a></dt>
+<dd><p>Calculates the tangent vector between two points</p>
+<p>Parameters:
+- point1: First point
+- point2: Second point</p>
+<p>Returns:
+- tangent_vector: The normalized tangent vector between the two points</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.GeometricFunctions.interpolate_coordinates_3d">
+<span class="sig-name descname"><span class="pre">interpolate_coordinates_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#GeometricFunctions.interpolate_coordinates_3d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.GeometricFunctions.interpolate_coordinates_3d" title="Link to this definition"></a></dt>
+<dd><p>Interpolates a list of points using cubic spline interpolation</p>
+<p>Parameters:
+- points: List of points (3D), formatted as a list of lists
+- n: The number of additional points to add between original point pairs</p>
+<p>Returns:
+- interpolated_points: A list of newly interpolated points</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.GeometricFunctions.interpolate_scalar">
+<span class="sig-name descname"><span class="pre">interpolate_scalar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#GeometricFunctions.interpolate_scalar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.GeometricFunctions.interpolate_scalar" title="Link to this definition"></a></dt>
+<dd><p>Interpolates a list of points using cubic spline interpolation</p>
+<p>Parameters:
+- scalar_data: list of scalar
+- n: The number of additional points to add between original point pairs</p>
+<p>Returns:
+- interpolated_scalar: A list of newly interpolated scalars</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.Vessel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">vSCAD.Geometry.geometry.</span></span><span class="sig-name descname"><span class="pre">Vessel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vessel'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#Vessel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.Vessel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.Vessel.get_direction_vectors">
+<span class="sig-name descname"><span class="pre">get_direction_vectors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#Vessel.get_direction_vectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.Vessel.get_direction_vectors" title="Link to this definition"></a></dt>
+<dd><p>Determine the direction vectors between each point in the path</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.Vessel.get_euler_angles">
+<span class="sig-name descname"><span class="pre">get_euler_angles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#Vessel.get_euler_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.Vessel.get_euler_angles" title="Link to this definition"></a></dt>
+<dd><p>Determine the Euler angles between each point in the path</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.Vessel.interpolate_paths">
+<span class="sig-name descname"><span class="pre">interpolate_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#Vessel.interpolate_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.Vessel.interpolate_paths" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.Vessel.set_diameters">
+<span class="sig-name descname"><span class="pre">set_diameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diams</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#Vessel.set_diameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.Vessel.set_diameters" title="Link to this definition"></a></dt>
+<dd><p>Sets the diameters of the vessel as a list of diameters</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.Vessel.set_path">
+<span class="sig-name descname"><span class="pre">set_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#Vessel.set_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.Vessel.set_path" title="Link to this definition"></a></dt>
+<dd><p>Sets the path of the vessel as a list of points</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="vSCAD.Geometry.geometry.Vessel.set_scale_factor">
+<span class="sig-name descname"><span class="pre">set_scale_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale_factor</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/vSCAD/Geometry/geometry.html#Vessel.set_scale_factor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#vSCAD.Geometry.geometry.Vessel.set_scale_factor" title="Link to this definition"></a></dt>
+<dd><p>Sets the scale factor for the vessel</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="module_tree.html" class="btn btn-neutral float-right" title="Tree" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Nick Rovito.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

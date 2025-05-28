@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vSCAD.Geometry.geometry &mdash; vSCAD 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            vSCAD
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_tree.html">Tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../demo.html">Demos</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">vSCAD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">vSCAD.Geometry.geometry</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for vSCAD.Geometry.geometry</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">axes3d</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">scipy.interpolate</span>
+
+<div class="viewcode-block" id="Vessel">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel">[docs]</a>
+<span class="k">class</span> <span class="nc">Vessel</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;vessel&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale_factor</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="Vessel.set_path">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel.set_path">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the path of the vessel as a list of points</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_factor</span></div>
+
+    
+<div class="viewcode-block" id="Vessel.set_diameters">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel.set_diameters">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_diameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diams</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the diameters of the vessel as a list of diameters</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diameters</span> <span class="o">=</span> <span class="n">diams</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_factor</span></div>
+
+
+<div class="viewcode-block" id="Vessel.set_scale_factor">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel.set_scale_factor">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_scale_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale_factor</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the scale factor for the vessel</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale_factor</span> <span class="o">=</span> <span class="n">scale_factor</span></div>
+
+
+<div class="viewcode-block" id="Vessel.get_direction_vectors">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel.get_direction_vectors">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_direction_vectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Determine the direction vectors between each point in the path</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">direction_vectors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">direction_vectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">GeometricFunctions</span><span class="o">.</span><span class="n">get_direction_vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+        
+        <span class="c1"># Sets the last direction vector to be the same as the second to last</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">direction_vectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">direction_vectors</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">direction_vectors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">direction_vectors</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Vessel.get_euler_angles">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel.get_euler_angles">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_euler_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Determine the Euler angles between each point in the path</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">euler_angles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">direction_vectors</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">euler_angles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">GeometricFunctions</span><span class="o">.</span><span class="n">direction_to_euler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">direction_vectors</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">euler_angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">euler_angles</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Vessel.interpolate_paths">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Vessel.interpolate_paths">[docs]</a>
+    <span class="k">def</span> <span class="nf">interpolate_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">GeometricFunctions</span><span class="o">.</span><span class="n">interpolate_coordinates_3d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diameters</span> <span class="o">=</span> <span class="n">GeometricFunctions</span><span class="o">.</span><span class="n">interpolate_scalar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diameters</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span></div>
+</div>
+
+
+<div class="viewcode-block" id="GeometricFunctions">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions">[docs]</a>
+<span class="k">class</span> <span class="nc">GeometricFunctions</span><span class="p">():</span>
+<div class="viewcode-block" id="GeometricFunctions.interpolate_coordinates_3d">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.interpolate_coordinates_3d">[docs]</a>
+    <span class="k">def</span> <span class="nf">interpolate_coordinates_3d</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Interpolates a list of points using cubic spline interpolation</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - points: List of points (3D), formatted as a list of lists</span>
+<span class="sd">        - n: The number of additional points to add between original point pairs  </span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">        - interpolated_points: A list of newly interpolated points</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">))</span> 
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+
+        <span class="c1"># Create cubic spline object from coordinates, we interpolate the coordinates</span>
+        <span class="c1"># by their index in the points list</span>
+        <span class="n">cs_x</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">CubicSpline</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">cs_y</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">CubicSpline</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">cs_z</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">CubicSpline</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+        <span class="c1"># [0, 0.25, 0.5... example]</span>
+        <span class="n">t_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Make a new list of x coordinates (interpolated)</span>
+        <span class="n">x_fine</span> <span class="o">=</span> <span class="n">cs_x</span><span class="p">(</span><span class="n">t_fine</span><span class="p">)</span>
+        <span class="n">y_fine</span> <span class="o">=</span> <span class="n">cs_y</span><span class="p">(</span><span class="n">t_fine</span><span class="p">)</span>
+        <span class="n">z_fine</span> <span class="o">=</span> <span class="n">cs_z</span><span class="p">(</span><span class="n">t_fine</span><span class="p">)</span>
+
+        <span class="c1"># Combine into list</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">x_fine</span><span class="p">,</span> <span class="n">y_fine</span><span class="p">,</span> <span class="n">z_fine</span><span class="p">))</span><span class="o">.</span><span class="n">T</span></div>
+
+
+<div class="viewcode-block" id="GeometricFunctions.interpolate_scalar">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.interpolate_scalar">[docs]</a>
+    <span class="k">def</span> <span class="nf">interpolate_scalar</span><span class="p">(</span><span class="n">scalar_data</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Interpolates a list of points using cubic spline interpolation</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - scalar_data: list of scalar</span>
+<span class="sd">        - n: The number of additional points to add between original point pairs  </span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">        - interpolated_scalar: A list of newly interpolated scalars</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">scalar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scalar_data</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scalar_data</span><span class="p">))</span>
+        
+        <span class="c1"># Create cubic spline of scalar data vs index</span>
+        <span class="n">cs_scalar</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="n">CubicSpline</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">scalar</span><span class="p">)</span>
+        
+        <span class="c1"># Create finer grid</span>
+        <span class="n">t_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">scalar</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scalar</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">scalar_fine</span> <span class="o">=</span> <span class="n">cs_scalar</span><span class="p">(</span><span class="n">t_fine</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">scalar_fine</span></div>
+
+
+<div class="viewcode-block" id="GeometricFunctions.get_direction_vector">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.get_direction_vector">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_direction_vector</span><span class="p">(</span><span class="n">point1</span><span class="p">,</span> <span class="n">point2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculates the tangent vector between two points</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - point1: First point</span>
+<span class="sd">        - point2: Second point</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - tangent_vector: The normalized tangent vector between the two points </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">point2</span> <span class="o">-</span> <span class="n">point1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">point2</span> <span class="o">-</span> <span class="n">point1</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="GeometricFunctions.direction_to_euler">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.GeometricFunctions.direction_to_euler">[docs]</a>
+    <span class="k">def</span> <span class="nf">direction_to_euler</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">normal</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Converts a direction vector to Euler angles</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters: </span>
+<span class="sd">            Direction: The direction vector to convert</span>
+<span class="sd">            Normal: The normal vector of the plane to convert the direction vector to Euler angles, default is [0, 0, 1]</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Euler angles in degrees (ZYX rotation)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># Default normal vector is [0, 0, 1]</span>
+        <span class="k">if</span> <span class="n">normal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">normal</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        
+        <span class="c1"># Catch the case where the direction vector is [0, 0, 0] (dividing by zero)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        
+        <span class="c1"># Normalize vectors, just in case</span>
+        <span class="n">normal</span> <span class="o">=</span> <span class="n">normal</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">normal</span><span class="p">)</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">direction</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">direction</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the rotation axis and angle</span>
+        <span class="n">rotation_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+        <span class="n">rotation_angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">normal</span><span class="p">,</span> <span class="n">direction</span><span class="p">),</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span> <span class="c1"># clips incase of floating point error</span>
+
+        <span class="c1"># If the vector&#39;s are parallel, no rataion is needed</span>
+        <span class="c1"># Also, prevents further division by zero</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rotation_axis</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        
+        <span class="c1"># Normalize the rotation axis</span>
+        <span class="n">rotation_axis</span> <span class="o">=</span> <span class="n">rotation_axis</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rotation_axis</span><span class="p">)</span>
+
+        <span class="c1"># Compute Rodrigues&#39; rotation formula (rotation matrix)</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">rotation_axis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">rotation_axis</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+            <span class="p">[</span><span class="n">rotation_axis</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">rotation_axis</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+            <span class="p">[</span><span class="o">-</span><span class="n">rotation_axis</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rotation_axis</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="p">])</span>
+        
+        <span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="n">R</span> <span class="o">=</span> <span class="n">I</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">rotation_angle</span><span class="p">)</span> <span class="o">*</span> <span class="n">K</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">rotation_angle</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">K</span><span class="p">)</span>
+
+        <span class="c1"># Convert rotation matrix to Euler angles</span>
+        <span class="n">sin_yaw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">singular</span> <span class="o">=</span> <span class="n">sin_yaw</span> <span class="o">&lt;</span> <span class="mf">1e-6</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">singular</span><span class="p">:</span>
+            <span class="n">yaw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="c1"># rotation about z-axis</span>
+            <span class="n">pitch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="o">-</span><span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sin_yaw</span><span class="p">)</span> <span class="c1"># rotation about y-axis</span>
+            <span class="n">roll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="c1"># rotation about x-axis</span>
+        
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># Gimbal lock, two rotation axis aligned</span>
+            <span class="n">yaw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="o">-</span><span class="n">R</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">R</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="n">pitch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="o">-</span><span class="n">R</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sin_yaw</span><span class="p">)</span>
+            <span class="n">roll</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">roll</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">pitch</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">yaw</span><span class="p">)])</span></div>
+</div>
+
+        
+<div class="viewcode-block" id="Distortions">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Distortions">[docs]</a>
+<span class="k">class</span> <span class="nc">Distortions</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="Distortions.add_path_noise">
+<a class="viewcode-back" href="../../../module_geometry.html#vSCAD.Geometry.geometry.Distortions.add_path_noise">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_path_noise</span><span class="p">(</span><span class="n">vessel</span><span class="p">,</span> <span class="n">noise_level</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">noise_type</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">hold</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Adds noise to the path of the vessel</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - vessel: Vessel object</span>
+<span class="sd">        - noise_level: The level of noise to add to the path</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">noise_level</span> <span class="o">=</span> <span class="n">noise_level</span> <span class="o">*</span> <span class="n">length</span>
+        
+        <span class="n">x</span> <span class="o">=</span> <span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+
+        <span class="n">x_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="o">-</span><span class="n">noise_level</span><span class="p">,</span> <span class="n">noise_level</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">y_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="o">-</span><span class="n">noise_level</span><span class="p">,</span> <span class="n">noise_level</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+        <span class="n">z_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="o">-</span><span class="n">noise_level</span><span class="p">,</span> <span class="n">noise_level</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">noise_type</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
+            <span class="n">y_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+            <span class="n">z_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+        
+        <span class="k">elif</span> <span class="n">noise_type</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
+            <span class="n">x_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+            <span class="n">z_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">noise_type</span> <span class="o">==</span> <span class="s1">&#39;z&#39;</span><span class="p">:</span>
+            <span class="n">x_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+            <span class="n">y_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">noise_type</span> <span class="o">==</span> <span class="s1">&#39;xy&#39;</span><span class="p">:</span>
+            <span class="n">z_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+        
+        <span class="k">elif</span> <span class="n">noise_type</span> <span class="o">==</span> <span class="s1">&#39;xz&#39;</span><span class="p">:</span>
+            <span class="n">y_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">noise_type</span> <span class="o">==</span> <span class="s1">&#39;yz&#39;</span><span class="p">:</span>
+            <span class="n">x_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="n">noise_type</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid noise type, defaulting to all&#39;</span><span class="p">)</span>
+        <span class="n">x_noise</span><span class="p">[:</span><span class="n">hold</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x_noise</span><span class="p">[</span><span class="o">-</span><span class="n">hold</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">y_noise</span><span class="p">[:</span><span class="n">hold</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y_noise</span><span class="p">[</span><span class="o">-</span><span class="n">hold</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">z_noise</span><span class="p">[:</span><span class="n">hold</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">z_noise</span><span class="p">[</span><span class="o">-</span><span class="n">hold</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x_noise</span>
+        <span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">y_noise</span>
+        <span class="n">vessel</span><span class="o">.</span><span class="n">path</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">z</span> <span class="o">+</span> <span class="n">z_noise</span></div>
+</div>
+
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Nick Rovito.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

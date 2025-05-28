@@ -1,0 +1,17 @@
+Metadata-Version: 2.2
+Name: vSCAD
+Version: 0.1.0
+Summary: Mesh generation code for lofting 2D images into 3D vessels using OpenSCAD.
+Author-email: njrovito <niro3177@colorado.edu>
+Maintainer-email: njrovito <niro3177@colorado.edu>
+License: MIT license
+Project-URL: bugs, https://github.com/njrovito/vSCAD/issues
+Project-URL: changelog, https://github.com/njrovito/vSCAD/blob/master/changelog.md
+Project-URL: homepage, https://github.com/njrovito/vSCAD
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: coverage; extra == "dev"
+Requires-Dist: mypy; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: ruff; extra == "dev"

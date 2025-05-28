@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo Image Driven &mdash; vSCAD 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=d45e8c67"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Demo Nodal Tree" href="demo_nodal_tree.html" />
+    <link rel="prev" title="Demo Fractal Tree" href="demo_fractal_tree.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            vSCAD
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="module_geometry.html">Geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_tree.html">Tree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="demo.html">Demos</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="demo_fractal_tree.html">Demo Fractal Tree</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Demo Image Driven</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-project">Creating a project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#writing-the-script">Writing the script</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="demo_nodal_tree.html">Demo Nodal Tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="demo_remeshing_stl.html">Remeshing an stl</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">vSCAD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="demo.html">Demos</a></li>
+      <li class="breadcrumb-item active">Demo Image Driven</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/demo_image_driven.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="demo-image-driven">
+<h1>Demo Image Driven<a class="headerlink" href="#demo-image-driven" title="Link to this heading"></a></h1>
+<p>This is a demo of the vSCAD package. It will show you how to use the package to generate a 3D model from a set of points and diameters.</p>
+<section id="creating-a-project">
+<h2>Creating a project<a class="headerlink" href="#creating-a-project" title="Link to this heading"></a></h2>
+<p>vSCAD uses a preset file structure to organize projects. After installing the package, you can create a new project by running the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3<span class="w"> </span>~/path/to/vSCAD/src/vSCAD/io/new_project.py
+</pre></div>
+</div>
+<p>This will create a new project in the current directory. The project directory will contain:
+1. <cite>vscad.py</cite>: The main script for generating the 3D model.
+2. <cite>image_data/</cite>: A directory for storing the point and diameter data.
+3. <cite>scad/</cite>: A directory for storing the OpenSCAD files.
+4. <cite>scad-stl/</cite>: A directory for storing the generated 3D models generated from OpenSCAD.</p>
+</section>
+<section id="writing-the-script">
+<h2>Writing the script<a class="headerlink" href="#writing-the-script" title="Link to this heading"></a></h2>
+<p>We will now begin editing the <cite>vscad.py</cite> script to generate the 3D model. vSCAD provides
+a method to load points and diameters from a csv file generated from ImageJ.
+To import from an ImageJ csv file, use the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Reader</span> <span class="o">=</span> <span class="n">ImageJReader</span>
+<span class="c1"># ---- Read data for main vessel ---- #</span>
+<span class="n">main_path_csv</span> <span class="o">=</span> <span class="s1">&#39;image_data/main.pth&#39;</span>
+<span class="n">main_diam_csv</span> <span class="o">=</span> <span class="s1">&#39;image_data/main.diam&#39;</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="n">main_path_csv</span><span class="p">)</span>
+<span class="n">diameters</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_diam</span><span class="p">(</span><span class="n">main_diam_csv</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next we create a vessel object. The vessel object is the main object in vSCAD. It contains the points and diameters,
+and has methods for smoothing the geometry using cubic spline interpolation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make main vessel object</span>
+<span class="n">main_vessel</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">Vessel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;main_vessel&#39;</span><span class="p">)</span>
+<span class="n">main_vessel</span><span class="o">.</span><span class="n">set_scale_factor</span><span class="p">(</span><span class="n">scale_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">main_vessel</span><span class="o">.</span><span class="n">set_path</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="n">main_vessel</span><span class="o">.</span><span class="n">set_diameters</span><span class="p">(</span><span class="n">diameters</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We have the option of scaling our point data by using the <cite>set_scale_factor</cite> method. This is useful when the point and diameter
+data are in pixels and need to be scaled to a physical unit. <cite>set_scale_factor</cite> is 1 by default.</p>
+<p>In this example, we will generate a mesh from a simple bifurcation. The bifurcation is defined by two paths, <cite>main</cite> and <cite>side</cite>. We will make a second
+vessel object for the side path.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Read data for side vessel ---- #</span>
+<span class="n">side_path_csv</span> <span class="o">=</span> <span class="s1">&#39;image_data/side.pth&#39;</span>
+<span class="n">side_diam_csv</span> <span class="o">=</span> <span class="s1">&#39;image_data/side.diam&#39;</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="n">side_path_csv</span><span class="p">)</span>
+<span class="n">diameters</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_diam</span><span class="p">(</span><span class="n">side_diam_csv</span><span class="p">)</span>
+
+<span class="c1"># Make side vessel object</span>
+<span class="n">side_vessel</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">Vessel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;side_vessel&#39;</span><span class="p">)</span>
+<span class="n">side_vessel</span><span class="o">.</span><span class="n">set_scale_factor</span><span class="p">(</span><span class="n">scale_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">side_vessel</span><span class="o">.</span><span class="n">set_path</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="n">side_vessel</span><span class="o">.</span><span class="n">set_diameters</span><span class="p">(</span><span class="n">diameters</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If we want to smooth the geometry beyond what our point and diameter data provides, we can use the <cite>interpolate_paths</cite> method. This method
+belongs to the vessel object and will smooth the geometry using cubic spline interpolation. We specify the number of points to interpolate.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Interpolate paths ---- #</span>
+<span class="n">main_vessel</span><span class="o">.</span><span class="n">interpolate_path</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">side_vessel</span><span class="o">.</span><span class="n">interpolate_path</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, we prepare the vessel objects for OpenSCAD. When OpenSCAD generates a cylinder at each point, it assumes the cylinder is oriented along the z-axis.
+To smoothly connect each point, we need to provide euler angles to rotate each cylinder. We do this by finding the tangent vector between each point and
+rotating the cylinder to align with the tangent vector.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Prepare vessels for OpenSCAD ---- #</span>
+<span class="n">main_vessel</span><span class="o">.</span><span class="n">get_direction_vectors</span><span class="p">()</span>
+<span class="n">main_vessel</span><span class="o">.</span><span class="n">get_euler_angles</span><span class="p">()</span>
+
+<span class="n">side_vessel</span><span class="o">.</span><span class="n">get_direction_vectors</span><span class="p">()</span>
+<span class="n">side_vessel</span><span class="o">.</span><span class="n">get_euler_angles</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Finally, we generate the 3D model using OpenSCAD. We prepare the OpenSCAD file for writting by creating a <cite>SCADFile</cite> object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">scad_file</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">SCADFile</span><span class="p">(</span><span class="s1">&#39;vessel.scad&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, import the point and angle data that we have already prepared.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Import vessel data ---- #</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">import_vessel</span><span class="p">(</span><span class="n">main_vessel</span><span class="p">)</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">import_vessel</span><span class="p">(</span><span class="n">side_vessel</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We then import OpenSCAD modules necessary to generate the 3D model. We will call these modules later.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Import OpenSCAD functions ---- #</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">import_circle_at</span><span class="p">()</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">import_loft_path</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><cite>import_circle_at</cite> is a function that draws a cylinder with a small height at a specified point, diameter, and rotation. OpenSCAD does
+not loft 2D objects, so we use cylinders with small heights to represent circles.</p>
+<p><cite>import_loft_path</cite> is a function that generates a 3D model by hulling the cylinders. Since OpenSCAD does not have a built-in loft function,
+we use the hull function to connect our nearly-2D cylinders into a 3D model.</p>
+<p>After importing the necessary functions, we write the OpenSCAD code to generate the 3D model. In our bifurcation example, we want each vessel to
+be part of one final body. To do this we use <cite>start_union()</cite> and <cite>end_union()</cite> functions to group the cylinders together. Between the union
+markers, we loft each vessel.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- Write OpenSCAD code ---- #</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">start_union</span><span class="p">()</span>
+
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">function_loft_path</span><span class="p">(</span><span class="n">main_vessel</span><span class="p">)</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">function_loft_path</span><span class="p">(</span><span class="n">side_vessel</span><span class="p">)</span>
+
+<span class="n">scad_file</span><span class="o">.</span><span class="n">end_union</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Notice that OpenSCAD modules that were imported earlier using the <cite>import</cite> prefix are called using the <cite>function</cite> prefix.</p>
+<p>Finally, we can run the OpenSCAD code and generate the 3D model. This is the only step that requires OpenSCAD to be installed on your system.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">scad_file</span><span class="o">.</span><span class="n">write_stl</span><span class="p">(</span><span class="s1">&#39;vessel.stl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The full script is shown below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">vSCAD</span> <span class="k">as</span> <span class="nn">vs</span>
+
+<span class="n">Reader</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">ImageJReader</span>
+<span class="c1"># ---- Read data for main vessel ---- #</span>
+<span class="n">main_path_csv</span> <span class="o">=</span> <span class="s1">&#39;image_data/main.pth&#39;</span>
+<span class="n">main_diam_csv</span> <span class="o">=</span> <span class="s1">&#39;image_data/main.diam&#39;</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="n">main_path_csv</span><span class="p">)</span>
+<span class="n">diameters</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_diam</span><span class="p">(</span><span class="n">main_diam_csv</span><span class="p">)</span>
+
+<span class="c1"># Make main vessel object</span>
+<span class="n">main_vessel</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">Vessel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;main_vessel&#39;</span><span class="p">)</span>
+<span class="n">main_vessel</span><span class="o">.</span><span class="n">set_scale_factor</span><span class="p">(</span><span class="n">scale_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">main_vessel</span><span class="o">.</span><span class="n">set_path</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="n">main_vessel</span><span class="o">.</span><span class="n">set_diameters</span><span class="p">(</span><span class="n">diameters</span><span class="p">)</span>
+
+<span class="c1"># ---- Read data for side vessel ---- #</span>
+<span class="n">side_path_csv</span> <span class="o">=</span> <span class="s1">&#39;image_data/side.pth&#39;</span>
+<span class="n">side_diam_csv</span> <span class="o">=</span> <span class="s1">&#39;image_data/side.diam&#39;</span>
+<span class="n">points</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="n">side_path_csv</span><span class="p">)</span>
+<span class="n">diameters</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">get_diam</span><span class="p">(</span><span class="n">side_diam_csv</span><span class="p">)</span>
+
+<span class="c1"># Make side vessel object</span>
+<span class="n">side_vessel</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">Vessel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;side_vessel&#39;</span><span class="p">)</span>
+<span class="n">side_vessel</span><span class="o">.</span><span class="n">set_scale_factor</span><span class="p">(</span><span class="n">scale_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">side_vessel</span><span class="o">.</span><span class="n">set_path</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+<span class="n">side_vessel</span><span class="o">.</span><span class="n">set_diameters</span><span class="p">(</span><span class="n">diameters</span><span class="p">)</span>
+
+<span class="c1"># ---- Interpolate paths ---- #</span>
+<span class="n">main_vessel</span><span class="o">.</span><span class="n">interpolate_paths</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">side_vessel</span><span class="o">.</span><span class="n">interpolate_paths</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># ---- Prepare vessels for OpenSCAD ---- #</span>
+<span class="n">main_vessel</span><span class="o">.</span><span class="n">get_direction_vectors</span><span class="p">()</span>
+<span class="n">main_vessel</span><span class="o">.</span><span class="n">get_euler_angles</span><span class="p">()</span>
+
+<span class="n">side_vessel</span><span class="o">.</span><span class="n">get_direction_vectors</span><span class="p">()</span>
+<span class="n">side_vessel</span><span class="o">.</span><span class="n">get_euler_angles</span><span class="p">()</span>
+
+<span class="c1"># ---- Prepare OpenSCAD file ---- #</span>
+<span class="n">scad_file</span> <span class="o">=</span> <span class="n">vs</span><span class="o">.</span><span class="n">SCADFile</span><span class="p">(</span><span class="s1">&#39;vessel.scad&#39;</span><span class="p">)</span>
+
+<span class="c1"># ---- Import vessel data ---- #</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">import_vessel</span><span class="p">(</span><span class="n">main_vessel</span><span class="p">)</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">import_vessel</span><span class="p">(</span><span class="n">side_vessel</span><span class="p">)</span>
+
+<span class="c1"># ---- Import OpenSCAD functions ---- #</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">import_circle_at</span><span class="p">()</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">import_loft_path</span><span class="p">()</span>
+
+<span class="c1"># ---- Write OpenSCAD code ---- #</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">start_union</span><span class="p">()</span>
+
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">function_loft_path</span><span class="p">(</span><span class="n">main_vessel</span><span class="p">)</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">function_loft_path</span><span class="p">(</span><span class="n">side_vessel</span><span class="p">)</span>
+
+<span class="n">scad_file</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">end_union</span><span class="p">()</span>
+
+<span class="c1"># ---- Write stl ---- #</span>
+<span class="n">scad_file</span><span class="o">.</span><span class="n">write_stl</span><span class="p">(</span><span class="s1">&#39;vessel.stl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="demo_fractal_tree.html" class="btn btn-neutral float-left" title="Demo Fractal Tree" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="demo_nodal_tree.html" class="btn btn-neutral float-right" title="Demo Nodal Tree" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Nick Rovito.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
